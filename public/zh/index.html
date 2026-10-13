@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>「UUID 生成器」在浏览器中生成随机 UUID v4</title>
+    <meta
+      name="description"
+      content="「UUID 生成器」可在本地生成 1 到 100 个随机 UUID v4，并复制单条或全部结果。"
+    >
+    <meta property="og:title" content="「UUID 生成器」在浏览器中生成随机 UUID v4">
+    <meta
+      property="og:description"
+      content="「UUID 生成器」可在本地生成 1 到 100 个随机 UUID v4，并复制单条或全部结果。"
+    >
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+  </head>
+  <body>
+    <a class="skip" href="#tool">跳到生成器</a>
+    <header class="site-header">
+      <a class="brand" href="/zh/">
+        <span class="mark" aria-hidden="true"></span>
+        UUID 生成器
+      </a>
+      <nav class="lang" aria-label="语言">
+        <a href="/" hreflang="en" lang="en">English</a>
+        <a href="/zh/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+      </nav>
+    </header>
+
+    <main class="wrap">
+      <section class="hero">
+        <p class="kicker">第四版 · 只在本机生成</p>
+        <h1>UUID 生成器</h1>
+        <p class="lede">
+          为一条记录、一份测试数据或一整批样本生成随机 UUID v4。选定数量后生成，再复制其中一条，或一次复制全部。
+        </p>
+      </section>
+
+      <section id="tool" class="tool" data-uuid-app aria-labelledby="tool-title">
+        <h2 id="tool-title" class="visually-hidden">生成 UUID</h2>
+        <form class="controls" data-form>
+          <div class="field">
+            <label for="count">需要多少个？</label>
+            <div class="stepper">
+              <button type="button" data-step="-1" aria-label="减少数量">−</button>
+              <input
+                id="count"
+                data-count
+                name="count"
+                type="number"
+                inputmode="numeric"
+                min="1"
+                max="100"
+                step="1"
+                value="1"
+                required
+                aria-describedby="count-hint count-error"
+              >
+              <button type="button" data-step="1" aria-label="增加数量">+</button>
+            </div>
+            <p id="count-hint" class="hint">请填写 1 到 100 的整数。</p>
+            <p id="count-error" class="error" data-error hidden></p>
+          </div>
+          <button class="btn btn-primary" type="submit" data-generate>生成 UUID</button>
+          <p class="privacy">
+            生成使用浏览器里的 <code>crypto.getRandomValues</code>。结果不会上传或保存，再次生成会换掉当前列表。
+          </p>
+        </form>
+
+        <div class="results">
+          <div class="results-bar">
+            <h2>生成结果 <span data-result-count>0</span></h2>
+            <button class="btn btn-ghost" type="button" data-copy-all disabled>复制全部</button>
+          </div>
+          <p class="empty" data-empty>选择数量，然后点击「生成 UUID」。</p>
+          <ol data-list></ol>
+          <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="steps" aria-labelledby="steps-title">
+        <h2 id="steps-title" class="section-title">三步完成</h2>
+        <div class="step-grid">
+          <article>
+            <p class="step-num">01</p>
+            <h3>选择数量</h3>
+            <p>只要一个编号，或一次准备最多 100 个，方便贴进表格或测试数据。</p>
+          </article>
+          <article>
+            <p class="step-num">02</p>
+            <h3>点击生成</h3>
+            <p>每条都是小写 UUID v4，采用标准的 8-4-4-4-12 连字符格式。</p>
+          </article>
+          <article>
+            <p class="step-num">03</p>
+            <h3>复制使用</h3>
+            <p>可以复制某一条，也可以把整份列表按每行一个编号复制出去。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="about" aria-labelledby="about-title">
+        <h2 id="about-title" class="section-title">这里生成的是什么</h2>
+        <div class="about-grid">
+          <article>
+            <h3>128 位编号</h3>
+            <p>UUID 是带连字符、共 36 个字符的标识，用来区分记录，而不必先向同一个计数器申请。</p>
+          </article>
+          <article>
+            <h3>只做第四版</h3>
+            <p>版本位是 4，变体位是 8、9、a 或 b。其余位来自加密安全的随机源。</p>
+          </article>
+          <article>
+            <h3>同一批不重复</h3>
+            <p>同一批结果里的重复值会被换掉。这不能保证它永远不会和其他地方生成的编号相同。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" class="section-title">常见问题</h2>
+        <details>
+          <summary>生成的是哪一版 UUID？</summary>
+          <p>随机 UUID v4。它使用浏览器的加密随机数，并以小写、带连字符的标准形式显示。</p>
+        </details>
+        <details>
+          <summary>两个编号会一样吗？</summary>
+          <p>同一批里如果碰巧重复，会重新生成再放进列表。不同时间、不同人生成的编号重复概率极低，但任何随机方法都不能承诺绝对不会碰上。</p>
+        </details>
+        <details>
+          <summary>网站会保存我生成的编号吗？</summary>
+          <p>不会。生成过程不经过服务器。刷新页面、切换语言或再次生成后，上一份列表就没有了。这里没有账号，也没有历史记录。</p>
+        </details>
+        <details>
+          <summary>可以把 UUID 当密码吗？</summary>
+          <p>不要。它只适合作为数据标识，不适合当作密码、登录凭据或支付凭证。</p>
+        </details>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>免费 UUID 生成器。无需注册，没有广告，也不保存历史。<a href="/" lang="en">English</a></p>
+    </footer>
+
+    <script type="application/json" id="ui-strings">
+      {
+        "copyOne": "复制",
+        "copyOneLabel": "复制 {id}",
+        "copiedOne": "已复制",
+        "copyAll": "复制全部",
+        "copiedAll": "已全部复制",
+        "copyFailed": "复制失败，请手动选择编号后再复制。",
+        "invalidCount": "请输入 1 到 100 之间的整数。",
+        "cryptoMissing": "当前浏览器没有 crypto.getRandomValues，无法生成 UUID。",
+        "generated": "已生成 {n} 个 UUID。"
+      }
+    </script>
+    <script src="/assets/uuid.js"></script>
+    <script src="/assets/app.js"></script>
+  </body>
+</html>

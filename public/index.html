@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UUID generator — random UUID v4 in your browser</title>
+    <meta
+      name="description"
+      content="UUID generator for random version 4 identifiers. Choose 1–100, create them locally, and copy one UUID or the full list."
+    >
+    <meta property="og:title" content="UUID generator — random UUID v4 in your browser">
+    <meta
+      property="og:description"
+      content="UUID generator for random version 4 identifiers. Choose 1–100, create them locally, and copy one UUID or the full list."
+    >
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+  </head>
+  <body>
+    <a class="skip" href="#tool">Skip to the generator</a>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="mark" aria-hidden="true"></span>
+        UUID generator
+      </a>
+      <nav class="lang" aria-label="Languages">
+        <a href="/" hreflang="en" lang="en" aria-current="page">English</a>
+        <a href="/zh/" hreflang="zh-Hans" lang="zh-Hans">中文</a>
+      </nav>
+    </header>
+
+    <main class="wrap">
+      <section class="hero">
+        <p class="kicker">Version 4 · stays on this device</p>
+        <h1>UUID generator</h1>
+        <p class="lede">
+          Make a random UUID v4 for a record, a fixture, or a batch of test
+          data. Pick a count, generate, then copy a single value or every line.
+        </p>
+      </section>
+
+      <section id="tool" class="tool" data-uuid-app aria-labelledby="tool-title">
+        <h2 id="tool-title" class="visually-hidden">Generate UUIDs</h2>
+        <form class="controls" data-form>
+          <div class="field">
+            <label for="count">How many do you need?</label>
+            <div class="stepper">
+              <button type="button" data-step="-1" aria-label="Decrease count">−</button>
+              <input
+                id="count"
+                data-count
+                name="count"
+                type="number"
+                inputmode="numeric"
+                min="1"
+                max="100"
+                step="1"
+                value="1"
+                required
+                aria-describedby="count-hint count-error"
+              >
+              <button type="button" data-step="1" aria-label="Increase count">+</button>
+            </div>
+            <p id="count-hint" class="hint">Use an integer from 1 to 100.</p>
+            <p id="count-error" class="error" data-error hidden></p>
+          </div>
+          <button class="btn btn-primary" type="submit" data-generate>Generate UUIDs</button>
+          <p class="privacy">
+            Generation uses <code>crypto.getRandomValues</code> in your browser.
+            Results are not uploaded or stored, and a new batch replaces the list.
+          </p>
+        </form>
+
+        <div class="results">
+          <div class="results-bar">
+            <h2>Results <span data-result-count>0</span></h2>
+            <button class="btn btn-ghost" type="button" data-copy-all disabled>Copy all</button>
+          </div>
+          <p class="empty" data-empty>Choose a count, then generate your UUIDs.</p>
+          <ol data-list></ol>
+          <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="steps" aria-labelledby="steps-title">
+        <h2 id="steps-title" class="section-title">Three short steps</h2>
+        <div class="step-grid">
+          <article>
+            <p class="step-num">01</p>
+            <h3>Set the count</h3>
+            <p>Ask for one identifier, or up to 100 for a spreadsheet or test fixture.</p>
+          </article>
+          <article>
+            <p class="step-num">02</p>
+            <h3>Generate</h3>
+            <p>Each value is a lowercase UUID v4 in the standard 8-4-4-4-12 form.</p>
+          </article>
+          <article>
+            <p class="step-num">03</p>
+            <h3>Copy</h3>
+            <p>Copy one row, or copy the whole list with a single UUID on each line.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="about" aria-labelledby="about-title">
+        <h2 id="about-title" class="section-title">What this page makes</h2>
+        <div class="about-grid">
+          <article>
+            <h3>A 128-bit id</h3>
+            <p>A UUID is a 36-character identifier, hyphens included, used to label records without a central counter.</p>
+          </article>
+          <article>
+            <h3>Version 4 only</h3>
+            <p>The version digit is 4. The variant digit is 8, 9, a, or b. The rest comes from a cryptographic random source.</p>
+          </article>
+          <article>
+            <h3>Unique in the batch</h3>
+            <p>This page drops duplicates inside one batch. It cannot promise that a value will never match an id made elsewhere.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" class="section-title">Questions</h2>
+        <details>
+          <summary>Which UUID version is this?</summary>
+          <p>Random UUID v4, built with the browser’s cryptographic random generator and shown in lowercase with hyphens.</p>
+        </details>
+        <details>
+          <summary>Could two results match?</summary>
+          <p>A collision inside one batch is checked and replaced. Across all users and all time, random ids are extremely unlikely to match, but no generator can promise they never will.</p>
+        </details>
+        <details>
+          <summary>Do you keep what I generate?</summary>
+          <p>No. Nothing is sent to a server. Refreshing, switching language, or generating again clears the previous list. There is no account and no history.</p>
+        </details>
+        <details>
+          <summary>Can I use a UUID as a password?</summary>
+          <p>No. Treat it as an identifier for data, not as a secret, login, or payment credential.</p>
+        </details>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Free UUID generator. No sign-up, ads, or saved history. <a href="/zh/" lang="zh-Hans">中文</a></p>
+    </footer>
+
+    <script type="application/json" id="ui-strings">
+      {
+        "copyOne": "Copy",
+        "copyOneLabel": "Copy {id}",
+        "copiedOne": "Copied",
+        "copyAll": "Copy all",
+        "copiedAll": "Copied all",
+        "copyFailed": "Copy failed. Select the UUID and copy it manually.",
+        "invalidCount": "Enter a whole number from 1 to 100.",
+        "cryptoMissing": "This browser cannot generate a UUID because crypto.getRandomValues is unavailable.",
+        "generated": "Generated {n} UUIDs."
+      }
+    </script>
+    <script src="/assets/uuid.js"></script>
+    <script src="/assets/app.js"></script>
+  </body>
+</html>
