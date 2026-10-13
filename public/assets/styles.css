@@ -236,6 +236,14 @@ h1 {
   font-size: 1.25rem;
   border-left: 1px solid var(--line);
   border-right: 1px solid var(--line);
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.stepper input::-webkit-outer-spin-button,
+.stepper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .stepper input:focus {
@@ -260,7 +268,7 @@ h1 {
 
 .error {
   color: var(--danger);
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .btn {
@@ -343,7 +351,7 @@ h1 {
   color: var(--accent);
   font-family: var(--sans);
   font-size: 0.85rem;
-  font-weight: 750;
+  font-weight: 700;
 }
 
 .empty {

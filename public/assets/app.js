@@ -67,11 +67,15 @@
     return Promise.resolve(fallbackCopy(text));
   }
 
-  function parseCount(raw) {
+  function readInteger(raw) {
     var value = String(raw).trim();
     if (!/^\d+$/.test(value)) return null;
-    var count = Number(value);
-    if (count < 1 || count > 100) return null;
+    return Number(value);
+  }
+
+  function parseCount(raw) {
+    var count = readInteger(raw);
+    if (count == null || count < 1 || count > 100) return null;
     return count;
   }
 
@@ -171,7 +175,7 @@
 
   root.querySelectorAll("[data-step]").forEach(function (button) {
     button.addEventListener("click", function () {
-      var current = parseCount(countInput.value);
+      var current = readInteger(countInput.value);
       var delta = Number(button.getAttribute("data-step"));
       var next = current == null ? 1 : current + delta;
       if (next < 1) next = 1;
