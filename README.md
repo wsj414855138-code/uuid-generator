@@ -14,7 +14,7 @@ Open the URL printed by the command.
 
 ## Sitemap host
 
-`public/sitemap.xml` and `public/robots.txt` use `https://example.com` until the real Vercel URL exists. Replace that host before submitting the sitemap.
+`public/sitemap.xml` and `public/robots.txt` use `https://uuid-generator-umber.vercel.app`.
 
 ---
 
@@ -34,4 +34,4 @@ npx --yes serve public
 
 ## 站点地图域名
 
-`public/sitemap.xml` 和 `public/robots.txt` 在真实 Vercel 地址确定前使用 `https://example.com` 占位。提交站点地图前请先替换这个域名。
+`public/sitemap.xml` 和 `public/robots.txt` 使用 `https://uuid-generator-umber.vercel.app`。
