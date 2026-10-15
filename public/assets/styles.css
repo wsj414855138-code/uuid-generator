@@ -716,6 +716,50 @@ pre {
   color: var(--accent);
 }
 
+.mono-input {
+  min-height: 3.1rem;
+  padding: 0.65rem 0.75rem;
+}
+
+.swatch {
+  min-height: 8.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(28, 25, 21, 0.18);
+  display: grid;
+  place-items: center;
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.color-stats {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.9rem 0 0;
+}
+
+.color-stats div {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: baseline;
+}
+
+.color-stats dt {
+  color: var(--muted);
+}
+
+.color-stats dd {
+  margin: 0;
+  font-family: var(--mono);
+  word-break: break-all;
+}
+
+[hidden] {
+  display: none !important;
+}
+
 .output {
   display: flex;
   flex-direction: column;

@@ -2,6 +2,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const { generateUuidV4, generateUuidV7, generateBatch, parseUuid, patternV4, patternV7, patternUuid, patternVersioned } = require("../public/assets/uuid.js");
+const { javaUuidHashCode, locatorBarColor } = require("../public/assets/locator-color.js");
 
 const root = path.join(__dirname, "..", "public");
 const origin = "https://uuid-generator-umber.vercel.app";
@@ -54,8 +55,21 @@ assert.match(v4, patternVersioned);
 assert.match(id, patternVersioned);
 assert.equal(parseUuid("not a uuid").ok, false);
 
+const notch = "069a79f4-44e9-4726-a5be-fca90e38aaf5";
+assert.equal(javaUuidHashCode(notch) >>> 0, 0xe9f5688e);
+assert.equal(javaUuidHashCode(notch.toUpperCase()) >>> 0, 0xe9f5688e);
+assert.equal(javaUuidHashCode(notch.replace(/-/g, "")) >>> 0, 0xe9f5688e);
+assert.equal(javaUuidHashCode("00000000-0000-0000-0000-000000000001"), 1);
+assert.equal(javaUuidHashCode("00000000-0000-0000-0000-000000000000"), 0);
+assert.equal(javaUuidHashCode("not-a-uuid"), null);
+const notchColor = locatorBarColor(notch);
+assert.equal(notchColor.rawHex, "#F5688E");
+assert.equal(notchColor.hex, "#E66185");
+assert.deepEqual([notchColor.r, notchColor.g, notchColor.b], [230, 97, 133]);
+assert.equal(locatorBarColor("00000000-0000-0000-0000-000000000000").hex, "#E6E6E6");
+
 const htmlFiles = walk(root);
-assert.equal(htmlFiles.length, 18);
+assert.equal(htmlFiles.length, 20);
 
 const pages = [
   ["/", "/zh/"],
@@ -67,6 +81,7 @@ const pages = [
   ["/uuid-v7-vs-v4/", "/zh/uuid-v7-vs-v4/"],
   ["/uuid-v7-postgres/", "/zh/uuid-v7-postgres/"],
   ["/uuid-v7-java/", "/zh/uuid-v7-java/"],
+  ["/minecraft-uuid-locator-bar-color/", "/zh/minecraft-uuid-locator-bar-color/"],
 ];
 
 for (const file of htmlFiles) {
@@ -113,7 +128,10 @@ for (const [en, zh] of pages) {
   assert.ok(sitemap.includes(`<loc>${origin}${en}</loc>`), en);
   assert.ok(sitemap.includes(`<loc>${origin}${zh}</loc>`), zh);
 }
-assert.equal(sitemap.split("<loc>").length - 1, 18);
+assert.equal(sitemap.split("<loc>").length - 1, 20);
+for (const file of htmlFiles) {
+  assert.ok(fs.readFileSync(file, "utf8").includes("minecraft-uuid-locator-bar-color"), file);
+}
 
 const robots = fs.readFileSync(path.join(root, "robots.txt"), "utf8");
 assert.match(robots, /Sitemap: https:\/\/uuid-generator-umber\.vercel\.app\/sitemap\.xml/);

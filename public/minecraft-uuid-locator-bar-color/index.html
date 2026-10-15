@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>Minecraft locator bar color</title>
+    <meta name="description" content="Look up a Minecraft Java username or paste a UUID, then see the default locator bar color as a swatch, HEX, and RGB.">
+    <meta property="og:title" content="Minecraft locator bar color">
+    <meta property="og:description" content="Look up a Minecraft Java username or paste a UUID, then see the default locator bar color as a swatch, HEX, and RGB.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/minecraft-uuid-locator-bar-color/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Minecraft locator bar color","url":"https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/","description":"Look up a Minecraft Java username or paste a UUID, then see the default locator bar color as a swatch, HEX, and RGB.","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this the color shown in game?","acceptedAnswer":{"@type":"Answer","text":"It is the Java Edition default derived from the UUID. The Minecraft Wiki says a team color or the /waypoint command can replace that default. Bedrock Edition picks a color for each session, so this page does not apply there."}},{"@type":"Question","name":"Does a username change the color?","acceptedAnswer":{"@type":"Answer","text":"An online-mode Java account keeps the same UUID when the username changes, so the default color stays the same. On an offline-mode server the UUID is derived from the name, and a different name can mean a different color."}},{"@type":"Question","name":"Which service resolves the username?","acceptedAnswer":{"@type":"Answer","text":"The page asks PlayerDB. api.mojang.com does not send a CORS header that browsers can use. Pasting a UUID skips the lookup, and the color math runs in the browser either way."}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#tool">Skip to the tool</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID generator
+        </a>
+        <nav class="lang" aria-label="Languages">
+          <a href="/minecraft-uuid-locator-bar-color/" hreflang="en" lang="en" aria-current="page">English</a>
+          <a href="/zh/minecraft-uuid-locator-bar-color/" hreflang="zh-Hans" lang="zh-Hans">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="Tools"><a href="/">Generator</a><a href="/uuid-v7-generator/">UUID v7</a><a href="/uuid-v7-to-timestamp/">v7 timestamp</a><a href="/uuid-validator/">Validator</a><a href="/bulk-uuid-generator/">Bulk</a><a href="/uuid-v7-vs-v4/">v7 vs v4</a><a href="/uuid-v7-vs-ulid/">v7 vs ULID</a><a href="/uuid-v7-postgres/">PostgreSQL</a><a href="/uuid-v7-java/">Java</a><a href="/minecraft-uuid-locator-bar-color/" aria-current="page">Locator color</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">Java Edition</p>
+        <h1>Minecraft locator bar color</h1>
+        <p class="lede">Enter a Java username or paste a UUID. The page resolves a username, then turns the UUID into the default locator bar color.</p>
+      </section>
+      <section id="tool" class="tool" data-locator-app aria-labelledby="tool-title">
+        <h2 id="tool-title" class="visually-hidden">Look up a locator bar color</h2>
+        <form class="controls" data-form novalidate>
+          <div class="field">
+            <label for="player">Java username or UUID</label>
+            <input id="player" class="mono-input" data-input name="player" type="text" autocomplete="off" spellcheck="false" placeholder="Notch or 069a79f4-44e9-4726-a5be-fca90e38aaf5" aria-describedby="player-hint player-error">
+            <p id="player-hint" class="hint">A username is 3 to 16 letters, numbers, or underscores. A UUID can include hyphens.</p>
+            <p id="player-error" class="error" data-error hidden></p>
+          </div>
+          <button class="btn btn-primary" type="submit" data-submit>Show color</button>
+        </form>
+        <div class="results">
+          <p class="empty" data-empty>The swatch, HEX, and RGB appear here.</p>
+          <div data-result hidden>
+            <div class="swatch" data-swatch role="img" aria-label="Locator bar color"></div>
+            <dl class="color-stats">
+              <div data-name-row hidden>
+                <dt>Username</dt>
+                <dd data-name></dd>
+              </div>
+              <div>
+                <dt>UUID</dt>
+                <dd data-uuid></dd>
+              </div>
+              <div>
+                <dt>HEX</dt>
+                <dd data-hex></dd>
+              </div>
+              <div>
+                <dt>RGB</dt>
+                <dd data-rgb></dd>
+              </div>
+            </dl>
+            <p class="hint" data-source></p>
+          </div>
+          <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+        </div>
+      </section>
+      <div class="prose">
+        <h2>How the color is chosen</h2>
+        <p>The <a href="https://minecraft.wiki/w/Locator_Bar">Locator Bar</a> page on the Minecraft Wiki says that Java Edition assigns a waypoint color from the entity UUID. The same page says a team color or the <code>/waypoint</code> command can replace it, and that Bedrock Edition assigns a color at random for each session. Checked against that entry, the wiki does not publish a different bit formula.</p>
+        <p>This page follows Java <code>UUID.hashCode()</code>: XOR the two 64-bit halves, then XOR the high and low 32 bits of that result. The low 24 bits are RGB. That color is converted to HSV, the value V is set to 0.9, and it is converted back to RGB. The swatch uses the color after that step.</p>
+        <p>Username lookup uses <a href="https://playerdb.co/">PlayerDB</a> at <code>https://playerdb.co/api/player/minecraft/&lt;name&gt;</code>. <code>api.mojang.com</code> does not send a CORS header that browsers can read, so this page does not call it. A pasted UUID is not sent anywhere.</p>
+      </div>
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" class="section-title">Questions</h2>
+        <details>
+          <summary>Is this the color shown in game?</summary>
+          <p>It is the Java Edition default derived from the UUID. The Minecraft Wiki says a team color or the /waypoint command can replace that default. Bedrock Edition picks a color for each session, so this page does not apply there.</p>
+        </details>
+        <details>
+          <summary>Does a username change the color?</summary>
+          <p>An online-mode Java account keeps the same UUID when the username changes, so the default color stays the same. On an offline-mode server the UUID is derived from the name, and a different name can mean a different color.</p>
+        </details>
+        <details>
+          <summary>Which service resolves the username?</summary>
+          <p>The page asks PlayerDB. api.mojang.com does not send a CORS header that browsers can use. Pasting a UUID skips the lookup, and the color math runs in the browser either way.</p>
+        </details>
+      </section>
+      <nav class="related" aria-label="Other tools"><h2>Other tools</h2><ul><li><a href="/">Generator</a></li><li><a href="/uuid-v7-generator/">UUID v7</a></li><li><a href="/uuid-v7-to-timestamp/">v7 timestamp</a></li><li><a href="/uuid-validator/">Validator</a></li><li><a href="/bulk-uuid-generator/">Bulk</a></li><li><a href="/uuid-v7-vs-v4/">v7 vs v4</a></li><li><a href="/uuid-v7-vs-ulid/">v7 vs ULID</a></li><li><a href="/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>No account and no saved history. <a href="/zh/minecraft-uuid-locator-bar-color/" lang="zh-Hans">中文</a></p>
+    </footer>
+    <script type="application/json" id="ui-strings">{"invalid":"Enter a Java username (3 to 16 letters, numbers, or underscores) or a UUID.","notFound":"PlayerDB has no Minecraft Java account with that username.","network":"The username lookup did not respond. Paste the UUID to calculate the color on this device.","fromPlayerDb":"Username from PlayerDB. The color was calculated in this browser.","fromUuid":"No username lookup. The color was calculated in this browser.","ready":"Locator bar color {hex}."}</script>
+    <script src="/assets/locator-color.js"></script>
+    <script src="/assets/locator.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>Minecraft 定位栏颜色</title>
+    <meta name="description" content="输入 Minecraft Java 用户名或粘贴 UUID，查看定位栏默认颜色的色块、HEX 和 RGB。">
+    <meta property="og:title" content="Minecraft 定位栏颜色">
+    <meta property="og:description" content="输入 Minecraft Java 用户名或粘贴 UUID，查看定位栏默认颜色的色块、HEX 和 RGB。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/zh/minecraft-uuid-locator-bar-color/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/zh/minecraft-uuid-locator-bar-color/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/minecraft-uuid-locator-bar-color/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Minecraft 定位栏颜色","url":"https://uuid-generator-umber.vercel.app/zh/minecraft-uuid-locator-bar-color/","description":"输入 Minecraft Java 用户名或粘贴 UUID，查看定位栏默认颜色的色块、HEX 和 RGB。","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"这就是游戏里看到的颜色吗？","acceptedAnswer":{"@type":"Answer","text":"这是由 UUID 算出的 Java 版默认颜色。Minecraft Wiki 写明，队伍颜色或 /waypoint 命令可以换掉这个默认值。基岩版每次会话会重新随机指定颜色，所以本页不适用于基岩版。"}},{"@type":"Question","name":"改用户名会改颜色吗？","acceptedAnswer":{"@type":"Answer","text":"正版 Java 账号改用户名后 UUID 不变，默认颜色也不变。离线模式服务器的 UUID 由名字派生，换一个名字可能得到另一种颜色。"}},{"@type":"Question","name":"用户名是向哪里查询的？","acceptedAnswer":{"@type":"Answer","text":"本页向 PlayerDB 查询。api.mojang.com 不返回浏览器可用的 CORS 头。直接粘贴 UUID 不会发起查询，颜色都在浏览器里计算。"}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#tool">跳到工具</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/zh/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID 生成器
+        </a>
+        <nav class="lang" aria-label="语言">
+          <a href="/minecraft-uuid-locator-bar-color/" hreflang="en" lang="en">English</a>
+          <a href="/zh/minecraft-uuid-locator-bar-color/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="工具"><a href="/zh/">生成器</a><a href="/zh/uuid-v7-generator/">UUID v7</a><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a><a href="/zh/uuid-validator/">校验</a><a href="/zh/bulk-uuid-generator/">批量</a><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a><a href="/zh/uuid-v7-postgres/">PostgreSQL</a><a href="/zh/uuid-v7-java/">Java</a><a href="/zh/minecraft-uuid-locator-bar-color/" aria-current="page">定位栏颜色</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">Java 版</p>
+        <h1>Minecraft 定位栏颜色</h1>
+        <p class="lede">输入 Java 版用户名，或直接粘贴 UUID。页面先查出 UUID，再算出定位栏的默认颜色。</p>
+      </section>
+      <section id="tool" class="tool" data-locator-app aria-labelledby="tool-title">
+        <h2 id="tool-title" class="visually-hidden">查询定位栏颜色</h2>
+        <form class="controls" data-form novalidate>
+          <div class="field">
+            <label for="player">Java 用户名或 UUID</label>
+            <input id="player" class="mono-input" data-input name="player" type="text" autocomplete="off" spellcheck="false" placeholder="Notch 或 069a79f4-44e9-4726-a5be-fca90e38aaf5" aria-describedby="player-hint player-error">
+            <p id="player-hint" class="hint">用户名为 3 到 16 位字母、数字或下划线。UUID 可以带连字符。</p>
+            <p id="player-error" class="error" data-error hidden></p>
+          </div>
+          <button class="btn btn-primary" type="submit" data-submit>显示颜色</button>
+        </form>
+        <div class="results">
+          <p class="empty" data-empty>色块、HEX 和 RGB 会显示在这里。</p>
+          <div data-result hidden>
+            <div class="swatch" data-swatch role="img" aria-label="定位栏颜色"></div>
+            <dl class="color-stats">
+              <div data-name-row hidden>
+                <dt>用户名</dt>
+                <dd data-name></dd>
+              </div>
+              <div>
+                <dt>UUID</dt>
+                <dd data-uuid></dd>
+              </div>
+              <div>
+                <dt>HEX</dt>
+                <dd data-hex></dd>
+              </div>
+              <div>
+                <dt>RGB</dt>
+                <dd data-rgb></dd>
+              </div>
+            </dl>
+            <p class="hint" data-source></p>
+          </div>
+          <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+        </div>
+      </section>
+      <div class="prose">
+        <h2>颜色是怎么来的</h2>
+        <p>Minecraft Wiki 的 <a href="https://minecraft.wiki/w/Locator_Bar">Locator Bar</a> 条目写明：Java 版根据实体的 UUID 指定路标颜色；队伍颜色或 <code>/waypoint</code> 命令可以改掉它；基岩版则在每次会话随机指定。对照该条目，Wiki 没有公布另一套位运算公式。</p>
+        <p>本页使用 Java 的 <code>UUID.hashCode()</code>：先把两个 64 位半异或，再把结果的高 32 位和低 32 位异或。取低 24 位作为 RGB，转到 HSV 后把亮度 V 设为 0.9，再转回 RGB。色块显示的是这一步之后的颜色。</p>
+        <p>用户名查询使用 <a href="https://playerdb.co/">PlayerDB</a>，地址是 <code>https://playerdb.co/api/player/minecraft/&lt;name&gt;</code>。<code>api.mojang.com</code> 不返回浏览器能读取的 CORS 头，所以本页不调用它。粘贴的 UUID 不会被发送出去。</p>
+      </div>
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" class="section-title">常见问题</h2>
+        <details>
+          <summary>这就是游戏里看到的颜色吗？</summary>
+          <p>这是由 UUID 算出的 Java 版默认颜色。Minecraft Wiki 写明，队伍颜色或 /waypoint 命令可以换掉这个默认值。基岩版每次会话会重新随机指定颜色，所以本页不适用于基岩版。</p>
+        </details>
+        <details>
+          <summary>改用户名会改颜色吗？</summary>
+          <p>正版 Java 账号改用户名后 UUID 不变，默认颜色也不变。离线模式服务器的 UUID 由名字派生，换一个名字可能得到另一种颜色。</p>
+        </details>
+        <details>
+          <summary>用户名是向哪里查询的？</summary>
+          <p>本页向 PlayerDB 查询。api.mojang.com 不返回浏览器可用的 CORS 头。直接粘贴 UUID 不会发起查询，颜色都在浏览器里计算。</p>
+        </details>
+      </section>
+      <nav class="related" aria-label="其他工具"><h2>其他工具</h2><ul><li><a href="/zh/">生成器</a></li><li><a href="/zh/uuid-v7-generator/">UUID v7</a></li><li><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a></li><li><a href="/zh/uuid-validator/">校验</a></li><li><a href="/zh/bulk-uuid-generator/">批量</a></li><li><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a></li><li><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a></li><li><a href="/zh/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/zh/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>没有账号，也不保存历史。<a href="/minecraft-uuid-locator-bar-color/" lang="en">English</a></p>
+    </footer>
+    <script type="application/json" id="ui-strings">{"invalid":"请输入 Java 用户名（3 到 16 位字母、数字或下划线）或 UUID。","notFound":"PlayerDB 没有这个 Minecraft Java 用户名。","network":"用户名查询没有响应。可以改贴 UUID，在本机计算颜色。","fromPlayerDb":"用户名来自 PlayerDB。颜色在这个浏览器里计算。","fromUuid":"没有查询用户名。颜色在这个浏览器里计算。","ready":"定位栏颜色 {hex}。"}</script>
+    <script src="/assets/locator-color.js"></script>
+    <script src="/assets/locator.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

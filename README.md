@@ -2,7 +2,7 @@
 
 Static site that creates UUID version 4 and version 7 values in the browser with `crypto.getRandomValues`.
 
-English pages start at `/`. Chinese pages start at `/zh/`. Tool pages cover generation, a v7 timestamp decoder, validation, a bulk download of up to 10000 values, and short notes for PostgreSQL 18 and Java.
+English pages start at `/`. Chinese pages start at `/zh/`. Tool pages cover generation, a v7 timestamp decoder, validation, a bulk download of up to 10000 values, short notes for PostgreSQL 18 and Java, and a Minecraft Java locator-bar color lookup.
 
 ## Preview locally
 
@@ -28,7 +28,7 @@ node scripts/uuid.test.js
 
 用浏览器的 `crypto.getRandomValues` 生成 UUID 第四版和第七版的静态站点。
 
-英文页面从 `/` 开始，中文页面从 `/zh/` 开始。工具页包括生成、v7 时间解码、校验、最多 10000 条的批量下载，以及 PostgreSQL 18 和 Java 的简短说明。
+英文页面从 `/` 开始，中文页面从 `/zh/` 开始。工具页包括生成、v7 时间解码、校验、最多 10000 条的批量下载、PostgreSQL 18 和 Java 的简短说明，以及 Minecraft Java 定位栏颜色查询。
 
 ## 本地预览
 

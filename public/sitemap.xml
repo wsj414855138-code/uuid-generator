@@ -109,4 +109,16 @@
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-java/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-java/"/>
   </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/minecraft-uuid-locator-bar-color/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/zh/minecraft-uuid-locator-bar-color/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/minecraft-uuid-locator-bar-color/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/minecraft-uuid-locator-bar-color/"/>
+  </url>
 </urlset>
