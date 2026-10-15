@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>UUID v7 vs ULID</title>
+    <meta name="description" content="Compare UUID version 7 and ULID: bit layout, text encoding, sort order, and when a native UUID column matters.">
+    <meta property="og:title" content="UUID v7 vs ULID">
+    <meta property="og:description" content="Compare UUID version 7 and ULID: bit layout, text encoding, sort order, and when a native UUID column matters.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-ulid/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"UUID v7 vs ULID","description":"Compare UUID version 7 and ULID: bit layout, text encoding, sort order, and when a native UUID column matters.","inLanguage":"en","mainEntityOfPage":"https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are they the same 128 bits?","acceptedAnswer":{"@type":"Answer","text":"Both are 128 bits and both start with a 48-bit Unix millisecond timestamp. ULID then has 80 random bits. UUID v7 uses 4 version bits and 2 variant bits, leaving 74 bits for the random portion defined by RFC 9562."}},{"@type":"Question","name":"Can I store a ULID in a UUID column?","acceptedAnswer":{"@type":"Answer","text":"A ULID is not a UUID. Some code writes the 16 ULID bytes into a uuid column, but the version nibble is then whatever those bits happen to be. That value is not a UUID v7."}},{"@type":"Question","name":"Which text form sorts?","acceptedAnswer":{"@type":"Answer","text":"A ULID's 26-character Crockford base32 text sorts by time. A canonical UUID v7 hex string also sorts by the millisecond timestamp because the timestamp is first and the hyphens sit in fixed places."}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to the article</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID generator
+        </a>
+        <nav class="lang" aria-label="Languages">
+          <a href="/uuid-v7-vs-ulid/" hreflang="en" lang="en" aria-current="page">English</a>
+          <a href="/zh/uuid-v7-vs-ulid/" hreflang="zh-Hans" lang="zh-Hans">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="Tools"><a href="/">Generator</a><a href="/uuid-v7-generator/">UUID v7</a><a href="/uuid-v7-to-timestamp/">v7 timestamp</a><a href="/uuid-validator/">Validator</a><a href="/bulk-uuid-generator/">Bulk</a><a href="/uuid-v7-vs-v4/">v7 vs v4</a><a href="/uuid-v7-vs-ulid/" aria-current="page">v7 vs ULID</a><a href="/uuid-v7-postgres/">PostgreSQL</a><a href="/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">Comparison</p>
+        <h1>UUID v7 vs ULID</h1>
+        <p class="lede">Both are 128 bits and both start with a Unix millisecond timestamp. They are not the same identifier: ULID has no version or variant, and its usual text form is Crockford base32.</p>
+      </section>
+      
+      <div class="prose">
+        <div class="table-scroll"><table class="compare"><thead><tr><th scope="col"></th><th scope="col">UUID v7</th><th scope="col">ULID</th></tr></thead><tbody><tr><td>Width</td><td>128 bits</td><td>128 bits</td></tr><tr><td>Timestamp</td><td>48-bit Unix milliseconds</td><td>48-bit Unix milliseconds</td></tr><tr><td>After the timestamp</td><td>4 version bits, 12 rand_a bits, 2 variant bits, 62 rand_b bits</td><td>80 random bits</td></tr><tr><td>Usual text</td><td>36 characters, hexadecimal and hyphens</td><td>26 characters, Crockford base32</td></tr><tr><td>Version field</td><td>7</td><td>None</td></tr><tr><td>Monotonic option</td><td>Allowed by RFC 9562; this site uses random bits</td><td>The ULID spec describes incrementing the random part in the same millisecond</td></tr><tr><td>Native UUID type</td><td>Yes, when the variant and version are set</td><td>No. It is a different identifier</td></tr></tbody></table></div><p>Choose UUID v7 when the column, the API, or the parser already expects a UUID. Choose ULID when the surrounding system already uses its 26-character text. Converting one into the other by copying bytes does not change the spec that produced those bytes.</p>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">Questions</h2><details>
+        <summary>Are they the same 128 bits?</summary>
+        <p>Both are 128 bits and both start with a 48-bit Unix millisecond timestamp. ULID then has 80 random bits. UUID v7 uses 4 version bits and 2 variant bits, leaving 74 bits for the random portion defined by RFC 9562.</p>
+      </details>
+<details>
+        <summary>Can I store a ULID in a UUID column?</summary>
+        <p>A ULID is not a UUID. Some code writes the 16 ULID bytes into a uuid column, but the version nibble is then whatever those bits happen to be. That value is not a UUID v7.</p>
+      </details>
+<details>
+        <summary>Which text form sorts?</summary>
+        <p>A ULID's 26-character Crockford base32 text sorts by time. A canonical UUID v7 hex string also sorts by the millisecond timestamp because the timestamp is first and the hyphens sit in fixed places.</p>
+      </details></section>
+      <nav class="related" aria-label="Other tools"><h2>Other tools</h2><ul><li><a href="/">Generator</a></li><li><a href="/uuid-v7-generator/">UUID v7</a></li><li><a href="/uuid-v7-to-timestamp/">v7 timestamp</a></li><li><a href="/uuid-validator/">Validator</a></li><li><a href="/bulk-uuid-generator/">Bulk</a></li><li><a href="/uuid-v7-vs-v4/">v7 vs v4</a></li><li><a href="/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>No account and no saved history. <a href="/zh/uuid-v7-vs-ulid/" lang="zh-Hans">中文</a></p>
+    </footer>
+    
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>Java 中的 UUID v7</title>
+    <meta name="description" content="在 JDK 26 中用 UUID.ofEpochMillis 生成 UUID v7；更早的 JDK 可以用 SecureRandom 按 RFC 9562 填位。页面附有浏览器生成器。">
+    <meta property="og:title" content="Java 中的 UUID v7">
+    <meta property="og:description" content="在 JDK 26 中用 UUID.ofEpochMillis 生成 UUID v7；更早的 JDK 可以用 SecureRandom 按 RFC 9562 填位。页面附有浏览器生成器。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/zh/uuid-v7-java/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-java/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-java/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-java/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-java/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Java 中的 UUID v7","url":"https://uuid-generator-umber.vercel.app/zh/uuid-v7-java/","description":"在 JDK 26 中用 UUID.ofEpochMillis 生成 UUID v7；更早的 JDK 可以用 SecureRandom 按 RFC 9562 填位。页面附有浏览器生成器。","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"哪个 JDK 有标准的 UUID v7 方法？","acceptedAnswer":{"@type":"Answer","text":"JDK 26 增加了 UUID.ofEpochMillis(long)。它用你传入的毫秒时间戳构造第 7 版 UUID，并用加密随机源填上其余位。它不会替你把时间戳变成单调递增。"}},{"@type":"Question","name":"更早的 JDK 呢？","acceptedAnswer":{"@type":"Answer","text":"UUID.randomUUID() 是第 4 版。要做第 7 版，就把前 48 位设为 Unix 毫秒时间，版本半字节设为 7，两个变体位设为 10，其余位用 SecureRandom 填充。"}},{"@type":"Question","name":"页面上的生成器是 Java 吗？","acceptedAnswer":{"@type":"Answer","text":"不是。本页生成器在浏览器里用 crypto.getRandomValues 运行。Java 示例是给 Java 程序复制用的。"}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#tool">跳到工具</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/zh/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID 生成器
+        </a>
+        <nav class="lang" aria-label="语言">
+          <a href="/uuid-v7-java/" hreflang="en" lang="en">English</a>
+          <a href="/zh/uuid-v7-java/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="工具"><a href="/zh/">生成器</a><a href="/zh/uuid-v7-generator/">UUID v7</a><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a><a href="/zh/uuid-validator/">校验</a><a href="/zh/bulk-uuid-generator/">批量</a><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a><a href="/zh/uuid-v7-postgres/">PostgreSQL</a><a href="/zh/uuid-v7-java/" aria-current="page">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">JDK 26 与更早版本</p>
+        <h1>Java 中的 UUID v7</h1>
+        <p class="lede">JDK 26 可以用毫秒时间戳构造第 7 版 UUID。更早的 JDK 仍有 UUID.randomUUID()，那是第 4 版，所以第 7 版需要自己按字节组装。</p>
+      </section>
+      <section id="tool" class="tool" data-uuid-app data-tool="generate" data-max="20" aria-labelledby="tool-title">
+    <h2 id="tool-title" class="visually-hidden">生成 UUID</h2>
+    <form class="controls" data-form novalidate>
+      <fieldset class="versions">
+        <legend>版本</legend>
+        <div class="version-options">
+          <label><input type="radio" name="uuid-version" value="4"> UUID v4，随机</label>
+          <label><input type="radio" name="uuid-version" value="7" checked> UUID v7，毫秒时间戳</label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="count">需要多少个？</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" aria-label="减少数量">−</button>
+          <input id="count" data-count name="count" type="number" inputmode="numeric" min="1" max="20" step="1" value="1" required aria-describedby="count-hint count-error">
+          <button type="button" data-step="1" aria-label="增加数量">+</button>
+        </div>
+        <p id="count-hint" class="hint">请填写 1 到 20 的整数。</p>
+        <p id="count-error" class="error" data-error hidden></p>
+      </div>
+      <button class="btn btn-primary" type="submit" data-generate>生成 UUID</button>
+      
+      <p class="privacy">生成使用浏览器里的 crypto.getRandomValues。结果不会上传，再次生成会换掉当前列表。</p>
+    </form>
+    <div class="results">
+      <div class="results-bar">
+        <h2>生成结果 <span data-result-count>0</span></h2>
+        <button class="btn btn-ghost" type="button" data-copy-all disabled>复制全部</button>
+      </div>
+      <p class="hint" data-preview-note hidden></p>
+      <p class="empty" data-empty>选择版本和数量，然后生成。</p>
+      <ol data-list></ol>
+      <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+    </div>
+  </section>
+      <div class="prose">
+        <p>ofEpochMillis 会拒绝放不进 48 位的时间戳。如果要让同一毫秒内的多个值递增，请传入你已经做成单调的时间戳。这个方法自己不会做这件事。</p>
+<p>更早版本的示例复用一个 SecureRandom。每次调用都新建 SecureRandom 会多花播种时间。位操作和本站布局一致：rand_a 和 rand_b 是随机数，不是计数器。</p><h2>JDK 26</h2><pre><code>import java.time.Instant;
+import java.util.UUID;
+
+UUID id = UUID.ofEpochMillis(Instant.now().toEpochMilli());</code></pre><h2>更早的 JDK</h2><pre><code>import java.security.SecureRandom;
+import java.util.UUID;
+
+final class UuidV7 {
+  private static final SecureRandom RANDOM = new SecureRandom();
+
+  static UUID create() {
+    byte[] bytes = new byte[16];
+    RANDOM.nextBytes(bytes);
+    long ts = System.currentTimeMillis();
+    bytes[0] = (byte) (ts &gt;&gt;&gt; 40);
+    bytes[1] = (byte) (ts &gt;&gt;&gt; 32);
+    bytes[2] = (byte) (ts &gt;&gt;&gt; 24);
+    bytes[3] = (byte) (ts &gt;&gt;&gt; 16);
+    bytes[4] = (byte) (ts &gt;&gt;&gt; 8);
+    bytes[5] = (byte) ts;
+    bytes[6] = (byte) ((bytes[6] &amp; 0x0f) | 0x70);
+    bytes[8] = (byte) ((bytes[8] &amp; 0x3f) | 0x80);
+    long msb = 0;
+    long lsb = 0;
+    for (int i = 0; i &lt; 8; i++) msb = (msb &lt;&lt; 8) | (bytes[i] &amp; 0xffL);
+    for (int i = 8; i &lt; 16; i++) lsb = (lsb &lt;&lt; 8) | (bytes[i] &amp; 0xffL);
+    return new UUID(msb, lsb);
+  }
+}</code></pre>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">常见问题</h2><details>
+        <summary>哪个 JDK 有标准的 UUID v7 方法？</summary>
+        <p>JDK 26 增加了 UUID.ofEpochMillis(long)。它用你传入的毫秒时间戳构造第 7 版 UUID，并用加密随机源填上其余位。它不会替你把时间戳变成单调递增。</p>
+      </details>
+<details>
+        <summary>更早的 JDK 呢？</summary>
+        <p>UUID.randomUUID() 是第 4 版。要做第 7 版，就把前 48 位设为 Unix 毫秒时间，版本半字节设为 7，两个变体位设为 10，其余位用 SecureRandom 填充。</p>
+      </details>
+<details>
+        <summary>页面上的生成器是 Java 吗？</summary>
+        <p>不是。本页生成器在浏览器里用 crypto.getRandomValues 运行。Java 示例是给 Java 程序复制用的。</p>
+      </details></section>
+      <nav class="related" aria-label="其他工具"><h2>其他工具</h2><ul><li><a href="/zh/">生成器</a></li><li><a href="/zh/uuid-v7-generator/">UUID v7</a></li><li><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a></li><li><a href="/zh/uuid-validator/">校验</a></li><li><a href="/zh/bulk-uuid-generator/">批量</a></li><li><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a></li><li><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a></li><li><a href="/zh/uuid-v7-postgres/">PostgreSQL</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>没有账号，也不保存历史。<a href="/uuid-v7-java/" lang="en">English</a></p>
+    </footer>
+    <script type="application/json" id="ui-strings">{"copyOne":"复制","copyOneLabel":"复制 {id}","copiedOne":"已复制","copyAll":"复制全部","copiedAll":"已全部复制","copyFailed":"复制失败，请手动选择文本后再复制。","invalidCount":"请输入 1 到 {max} 之间的整数。","cryptoMissing":"当前浏览器没有 crypto.getRandomValues，无法生成 UUID。","generated":"已生成 {n} 个 UUID。","preview":"这里显示前 {shown} 条，共 {n} 条。复制全部和下载文件都包含整批结果。","downloaded":"已下载 {file}。","countLabel":"需要多少个？","decrease":"减少数量","increase":"增加数量","hint":"请填写 1 到 {max} 的整数。","generate":"生成 UUID","privacy":"生成使用浏览器里的 crypto.getRandomValues。结果不会上传，再次生成会换掉当前列表。","results":"生成结果","empty":"选择版本和数量，然后生成。","versionLegend":"版本","v4":"UUID v4，随机","v7":"UUID v7，毫秒时间戳","toolTitle":"生成 UUID","exportTxt":"下载 TXT","exportCsv":"下载 CSV","exportJson":"下载 JSON","bulkHint":"预览只列出前 20 条。复制全部和下载文件包含这一批的每一个 UUID。"}</script>
+    <script src="/assets/uuid.js"></script>
+    <script src="/assets/app.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

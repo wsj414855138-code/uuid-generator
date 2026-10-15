@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>UUID validator</title>
+    <meta name="description" content="Check one UUID or a list. See whether the text matches the canonical form, plus the version and variant. Includes a regex and JavaScript and Python snippets.">
+    <meta property="og:title" content="UUID validator">
+    <meta property="og:description" content="Check one UUID or a list. See whether the text matches the canonical form, plus the version and variant. Includes a regex and JavaScript and Python snippets.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/uuid-validator/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/uuid-validator/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-validator/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-validator/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-validator/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"UUID validator","url":"https://uuid-generator-umber.vercel.app/uuid-validator/","description":"Check one UUID or a list. See whether the text matches the canonical form, plus the version and variant. Includes a regex and JavaScript and Python snippets.","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What counts as valid here?","acceptedAnswer":{"@type":"Answer","text":"The checker accepts 32 hexadecimal digits, with the standard hyphens or without them. A leading urn:uuid: is ignored. It then shows the version nibble and the variant bits."}},{"@type":"Question","name":"Which pattern is the strict one?","acceptedAnswer":{"@type":"Answer","text":"The versioned regular expression also requires version 1 through 8 and a variant nibble of 8, 9, a, or b. The nil UUID does not match that stricter pattern."}},{"@type":"Question","name":"Do the code samples call a library?","acceptedAnswer":{"@type":"Answer","text":"No. The JavaScript and Python samples only test the versioned regular expression and read the version character."}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#tool">Skip to the tool</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID generator
+        </a>
+        <nav class="lang" aria-label="Languages">
+          <a href="/uuid-validator/" hreflang="en" lang="en" aria-current="page">English</a>
+          <a href="/zh/uuid-validator/" hreflang="zh-Hans" lang="zh-Hans">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="Tools"><a href="/">Generator</a><a href="/uuid-v7-generator/">UUID v7</a><a href="/uuid-v7-to-timestamp/">v7 timestamp</a><a href="/uuid-validator/" aria-current="page">Validator</a><a href="/bulk-uuid-generator/">Bulk</a><a href="/uuid-v7-vs-v4/">v7 vs v4</a><a href="/uuid-v7-vs-ulid/">v7 vs ULID</a><a href="/uuid-v7-postgres/">PostgreSQL</a><a href="/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">Text check</p>
+        <h1>UUID validator</h1>
+        <p class="lede">The checker accepts canonical hexadecimal UUIDs and reports the version nibble and variant. A stricter pattern below also requires version 1–8 and the RFC variant.</p>
+      </section>
+      <section id="tool" class="tool" data-uuid-app data-tool="validate" aria-labelledby="tool-title">
+    <h2 id="tool-title" class="visually-hidden">Validate UUIDs</h2>
+    <form class="controls" data-form novalidate>
+      <div class="field">
+        <label for="uuid-input">UUIDs</label>
+        <textarea id="uuid-input" data-input spellcheck="false" placeholder="One UUID per line"></textarea>
+        <p class="hint">Blank lines are skipped. Up to 200 lines.</p>
+        <p class="error" data-error hidden></p>
+      </div>
+      <button class="btn btn-primary" type="submit">Validate</button>
+    </form>
+    <div class="results">
+      <p class="empty" data-empty>Paste one or more UUIDs to check the text, version, and variant.</p>
+      <div class="table-scroll" data-table hidden>
+        <table class="checks">
+          <thead><tr><th scope="col">Line</th><th scope="col">Value</th><th scope="col">Result</th><th scope="col">Version</th><th scope="col">Variant</th></tr></thead>
+          <tbody data-output></tbody>
+        </table>
+      </div>
+      <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+    </div>
+  </section>
+      <div class="prose">
+        <p>The structural pattern checks the 8-4-4-4-12 groups only. The versioned pattern also checks that the version nibble is 1–8 and the variant nibble is 8, 9, a, or b. The version 7 pattern is the same idea with the version fixed at 7.</p>
+<p>In the canonical string, the version character is at index 14. That is the first character of the third group.</p>
+        <h2>Structural pattern</h2><pre><code>^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</code></pre>
+        <h2>Versioned pattern</h2><pre><code>^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$</code></pre>
+        <h2>UUID v7 pattern</h2><pre><code>^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$</code></pre>
+        <h2>JavaScript</h2><pre><code>const UUID_VERSIONED = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+
+function uuidVersion(value) {
+  if (!UUID_VERSIONED.test(value)) return null;
+  return Number.parseInt(value.charAt(14), 16);
+}</code></pre>
+        <h2>Python</h2><pre><code>import re
+
+UUID_VERSIONED = re.compile(
+    r&quot;^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$&quot;
+)
+
+def uuid_version(value: str) -&gt; int | None:
+    if UUID_VERSIONED.fullmatch(value) is None:
+        return None
+    return int(value[14], 16)</code></pre>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">Questions</h2><details>
+        <summary>What counts as valid here?</summary>
+        <p>The checker accepts 32 hexadecimal digits, with the standard hyphens or without them. A leading urn:uuid: is ignored. It then shows the version nibble and the variant bits.</p>
+      </details>
+<details>
+        <summary>Which pattern is the strict one?</summary>
+        <p>The versioned regular expression also requires version 1 through 8 and a variant nibble of 8, 9, a, or b. The nil UUID does not match that stricter pattern.</p>
+      </details>
+<details>
+        <summary>Do the code samples call a library?</summary>
+        <p>No. The JavaScript and Python samples only test the versioned regular expression and read the version character.</p>
+      </details></section>
+      <nav class="related" aria-label="Other tools"><h2>Other tools</h2><ul><li><a href="/">Generator</a></li><li><a href="/uuid-v7-generator/">UUID v7</a></li><li><a href="/uuid-v7-to-timestamp/">v7 timestamp</a></li><li><a href="/bulk-uuid-generator/">Bulk</a></li><li><a href="/uuid-v7-vs-v4/">v7 vs v4</a></li><li><a href="/uuid-v7-vs-ulid/">v7 vs ULID</a></li><li><a href="/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>No account and no saved history. <a href="/zh/uuid-validator/" lang="zh-Hans">中文</a></p>
+    </footer>
+    <script type="application/json" id="ui-strings">{"emptyInput":"Enter at least one UUID.","tooMany":"Paste at most {max} values at a time.","summary":"{ok} valid, {bad} not valid.","invalidLine":"Not a UUID.","valid":"Valid","noTime":"Not encoded for this version.","fieldResult":"Result","fieldVersion":"Version","fieldVariant":"Variant","fieldMillis":"Unix milliseconds","fieldIso":"ISO 8601","variants":{"rfc9562":"RFC 4122 / RFC 9562 (10xx)","ncs":"NCS (0xxx)","microsoft":"Microsoft (110x)","future":"Future (111x)"}}</script>
+    <script src="/assets/uuid.js"></script>
+    <script src="/assets/app.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>UUID v7 generator</title>
+    <meta name="description" content="Create RFC 9562 UUID version 7 values in your browser. Each identifier starts with a Unix millisecond timestamp. Copy one, or up to 100.">
+    <meta property="og:title" content="UUID v7 generator">
+    <meta property="og:description" content="Create RFC 9562 UUID version 7 values in your browser. Each identifier starts with a Unix millisecond timestamp. Copy one, or up to 100.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/uuid-v7-generator/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/uuid-v7-generator/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-generator/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-generator/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"UUID v7 generator","url":"https://uuid-generator-umber.vercel.app/uuid-v7-generator/","description":"Create RFC 9562 UUID version 7 values in your browser. Each identifier starts with a Unix millisecond timestamp. Copy one, or up to 100.","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the layout of UUID v7?","acceptedAnswer":{"@type":"Answer","text":"RFC 9562 puts a 48-bit big-endian Unix timestamp in milliseconds in the first bits, sets the version to 7, then 12 random bits, the variant bits 10, and 62 more random bits."}},{"@type":"Question","name":"Which clock is encoded?","acceptedAnswer":{"@type":"Answer","text":"The clock is Date.now() in this browser: milliseconds since 1970-01-01 UTC, excluding leap seconds. A wrong computer clock writes a wrong timestamp."}},{"@type":"Question","name":"Is this the same as a database uuidv7()?","acceptedAnswer":{"@type":"Answer","text":"The version, variant, and millisecond field follow RFC 9562. PostgreSQL 18 also stores a sub-millisecond fraction in the 12-bit rand_a field and keeps order inside one backend. This page leaves those 12 bits random."}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#tool">Skip to the tool</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID generator
+        </a>
+        <nav class="lang" aria-label="Languages">
+          <a href="/uuid-v7-generator/" hreflang="en" lang="en" aria-current="page">English</a>
+          <a href="/zh/uuid-v7-generator/" hreflang="zh-Hans" lang="zh-Hans">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="Tools"><a href="/">Generator</a><a href="/uuid-v7-generator/" aria-current="page">UUID v7</a><a href="/uuid-v7-to-timestamp/">v7 timestamp</a><a href="/uuid-validator/">Validator</a><a href="/bulk-uuid-generator/">Bulk</a><a href="/uuid-v7-vs-v4/">v7 vs v4</a><a href="/uuid-v7-vs-ulid/">v7 vs ULID</a><a href="/uuid-v7-postgres/">PostgreSQL</a><a href="/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">RFC 9562</p>
+        <h1>UUID v7 generator</h1>
+        <p class="lede">UUID version 7 keeps a Unix millisecond timestamp in the high bits and uses random bits after the version and variant. This page defaults to v7 and can still make a v4.</p>
+      </section>
+      <section id="tool" class="tool" data-uuid-app data-tool="generate" data-max="100" aria-labelledby="tool-title">
+    <h2 id="tool-title" class="visually-hidden">Generate UUIDs</h2>
+    <form class="controls" data-form novalidate>
+      <fieldset class="versions">
+        <legend>Version</legend>
+        <div class="version-options">
+          <label><input type="radio" name="uuid-version" value="4"> UUID v4, random</label>
+          <label><input type="radio" name="uuid-version" value="7" checked> UUID v7, millisecond timestamp</label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="count">How many do you need?</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" aria-label="Decrease count">−</button>
+          <input id="count" data-count name="count" type="number" inputmode="numeric" min="1" max="100" step="1" value="1" required aria-describedby="count-hint count-error">
+          <button type="button" data-step="1" aria-label="Increase count">+</button>
+        </div>
+        <p id="count-hint" class="hint">Use a whole number from 1 to 100.</p>
+        <p id="count-error" class="error" data-error hidden></p>
+      </div>
+      <button class="btn btn-primary" type="submit" data-generate>Generate UUIDs</button>
+      
+      <p class="privacy">Generation uses crypto.getRandomValues in this browser. Results are not uploaded. A new batch replaces the list.</p>
+    </form>
+    <div class="results">
+      <div class="results-bar">
+        <h2>Results <span data-result-count>0</span></h2>
+        <button class="btn btn-ghost" type="button" data-copy-all disabled>Copy all</button>
+      </div>
+      <p class="hint" data-preview-note hidden></p>
+      <p class="empty" data-empty>Choose a version and a count, then generate.</p>
+      <ol data-list></ol>
+      <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+    </div>
+  </section>
+      <div class="prose">
+        <p>The canonical text looks like xxxxxxxx-xxxx-7xxx-yxxx-xxxxxxxxxxxx. The character y is 8, 9, a, or b. Those are the RFC variant.</p>
+<p>Across different milliseconds, the text sorts by time because the timestamp comes first and the hyphens stay in fixed positions. Inside one millisecond the rest is random, so this page does not produce a counter.</p>
+        <h2>Where the bits go</h2>
+        <ul><li>Bits 0–47: Unix time in milliseconds.</li><li>Bits 48–51: version 7.</li><li>Bits 52–63: rand_a, random on this page.</li><li>Bits 64–65: variant 10.</li><li>Bits 66–127: rand_b, random.</li></ul>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">Questions</h2><details>
+        <summary>What is the layout of UUID v7?</summary>
+        <p>RFC 9562 puts a 48-bit big-endian Unix timestamp in milliseconds in the first bits, sets the version to 7, then 12 random bits, the variant bits 10, and 62 more random bits.</p>
+      </details>
+<details>
+        <summary>Which clock is encoded?</summary>
+        <p>The clock is Date.now() in this browser: milliseconds since 1970-01-01 UTC, excluding leap seconds. A wrong computer clock writes a wrong timestamp.</p>
+      </details>
+<details>
+        <summary>Is this the same as a database uuidv7()?</summary>
+        <p>The version, variant, and millisecond field follow RFC 9562. PostgreSQL 18 also stores a sub-millisecond fraction in the 12-bit rand_a field and keeps order inside one backend. This page leaves those 12 bits random.</p>
+      </details></section>
+      <nav class="related" aria-label="Other tools"><h2>Other tools</h2><ul><li><a href="/">Generator</a></li><li><a href="/uuid-v7-to-timestamp/">v7 timestamp</a></li><li><a href="/uuid-validator/">Validator</a></li><li><a href="/bulk-uuid-generator/">Bulk</a></li><li><a href="/uuid-v7-vs-v4/">v7 vs v4</a></li><li><a href="/uuid-v7-vs-ulid/">v7 vs ULID</a></li><li><a href="/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>No account and no saved history. <a href="/zh/uuid-v7-generator/" lang="zh-Hans">中文</a></p>
+    </footer>
+    <script type="application/json" id="ui-strings">{"copyOne":"Copy","copyOneLabel":"Copy {id}","copiedOne":"Copied","copyAll":"Copy all","copiedAll":"Copied all","copyFailed":"Copy failed. Select the text and copy it manually.","invalidCount":"Enter a whole number from 1 to {max}.","cryptoMissing":"This browser cannot generate a UUID because crypto.getRandomValues is unavailable.","generated":"Generated {n} UUIDs.","preview":"Showing the first {shown} of {n}. Copy all and the downloads include the full list.","downloaded":"Downloaded {file}.","countLabel":"How many do you need?","decrease":"Decrease count","increase":"Increase count","hint":"Use a whole number from 1 to {max}.","generate":"Generate UUIDs","privacy":"Generation uses crypto.getRandomValues in this browser. Results are not uploaded. A new batch replaces the list.","results":"Results","empty":"Choose a version and a count, then generate.","versionLegend":"Version","v4":"UUID v4, random","v7":"UUID v7, millisecond timestamp","toolTitle":"Generate UUIDs","exportTxt":"Download TXT","exportCsv":"Download CSV","exportJson":"Download JSON","bulkHint":"The preview lists the first 20. Copy all and the file downloads include every UUID in the batch."}</script>
+    <script src="/assets/uuid.js"></script>
+    <script src="/assets/app.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

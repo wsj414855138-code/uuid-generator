@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>UUID 校验器</title>
+    <meta name="description" content="校验单条或批量 UUID，查看是否为标准写法，并显示版本和变体。页面附有正则表达式以及 JavaScript 和 Python 示例。">
+    <meta property="og:title" content="UUID 校验器">
+    <meta property="og:description" content="校验单条或批量 UUID，查看是否为标准写法，并显示版本和变体。页面附有正则表达式以及 JavaScript 和 Python 示例。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/zh/uuid-validator/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/zh/uuid-validator/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-validator/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-validator/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-validator/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"UUID 校验器","url":"https://uuid-generator-umber.vercel.app/zh/uuid-validator/","description":"校验单条或批量 UUID，查看是否为标准写法，并显示版本和变体。页面附有正则表达式以及 JavaScript 和 Python 示例。","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"这里怎样算有效？","acceptedAnswer":{"@type":"Answer","text":"校验器接受 32 位十六进制，可以带标准连字符，也可以不带。开头的 urn:uuid: 会被忽略。然后它显示版本半字节和变体位。"}},{"@type":"Question","name":"哪一条正则更严？","acceptedAnswer":{"@type":"Answer","text":"带版本的正则还要求版本是 1 到 8，并且变体半字节是 8、9、a 或 b。全零的 nil UUID 不符合这条更严的正则。"}},{"@type":"Question","name":"示例代码会调用库吗？","acceptedAnswer":{"@type":"Answer","text":"不会。JavaScript 和 Python 示例只测试这条带版本的正则，并读取版本字符。"}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#tool">跳到工具</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/zh/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID 生成器
+        </a>
+        <nav class="lang" aria-label="语言">
+          <a href="/uuid-validator/" hreflang="en" lang="en">English</a>
+          <a href="/zh/uuid-validator/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="工具"><a href="/zh/">生成器</a><a href="/zh/uuid-v7-generator/">UUID v7</a><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a><a href="/zh/uuid-validator/" aria-current="page">校验</a><a href="/zh/bulk-uuid-generator/">批量</a><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a><a href="/zh/uuid-v7-postgres/">PostgreSQL</a><a href="/zh/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">文本检查</p>
+        <h1>UUID 校验器</h1>
+        <p class="lede">校验器接受标准十六进制 UUID，并报告版本半字节和变体。下面更严的正则还要求版本为 1–8，且变体属于 RFC。</p>
+      </section>
+      <section id="tool" class="tool" data-uuid-app data-tool="validate" aria-labelledby="tool-title">
+    <h2 id="tool-title" class="visually-hidden">校验 UUID</h2>
+    <form class="controls" data-form novalidate>
+      <div class="field">
+        <label for="uuid-input">UUID 列表</label>
+        <textarea id="uuid-input" data-input spellcheck="false" placeholder="每行一个 UUID"></textarea>
+        <p class="hint">空行会跳过。最多 200 行。</p>
+        <p class="error" data-error hidden></p>
+      </div>
+      <button class="btn btn-primary" type="submit">校验</button>
+    </form>
+    <div class="results">
+      <p class="empty" data-empty>粘贴一条或多条 UUID，查看文本、版本和变体。</p>
+      <div class="table-scroll" data-table hidden>
+        <table class="checks">
+          <thead><tr><th scope="col">行</th><th scope="col">内容</th><th scope="col">结果</th><th scope="col">版本</th><th scope="col">变体</th></tr></thead>
+          <tbody data-output></tbody>
+        </table>
+      </div>
+      <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+    </div>
+  </section>
+      <div class="prose">
+        <p>结构正则只检查 8-4-4-4-12 这几组。带版本的正则还会检查版本半字节是 1–8，变体半字节是 8、9、a 或 b。v7 正则是同一想法，只是把版本固定为 7。</p>
+<p>在标准字符串里，版本字符位于下标 14，也就是第三组的第一个字符。</p>
+        <h2>结构正则</h2><pre><code>^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</code></pre>
+        <h2>带版本的正则</h2><pre><code>^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$</code></pre>
+        <h2>UUID v7 正则</h2><pre><code>^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$</code></pre>
+        <h2>JavaScript</h2><pre><code>const UUID_VERSIONED = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+
+function uuidVersion(value) {
+  if (!UUID_VERSIONED.test(value)) return null;
+  return Number.parseInt(value.charAt(14), 16);
+}</code></pre>
+        <h2>Python</h2><pre><code>import re
+
+UUID_VERSIONED = re.compile(
+    r&quot;^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$&quot;
+)
+
+def uuid_version(value: str) -&gt; int | None:
+    if UUID_VERSIONED.fullmatch(value) is None:
+        return None
+    return int(value[14], 16)</code></pre>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">常见问题</h2><details>
+        <summary>这里怎样算有效？</summary>
+        <p>校验器接受 32 位十六进制，可以带标准连字符，也可以不带。开头的 urn:uuid: 会被忽略。然后它显示版本半字节和变体位。</p>
+      </details>
+<details>
+        <summary>哪一条正则更严？</summary>
+        <p>带版本的正则还要求版本是 1 到 8，并且变体半字节是 8、9、a 或 b。全零的 nil UUID 不符合这条更严的正则。</p>
+      </details>
+<details>
+        <summary>示例代码会调用库吗？</summary>
+        <p>不会。JavaScript 和 Python 示例只测试这条带版本的正则，并读取版本字符。</p>
+      </details></section>
+      <nav class="related" aria-label="其他工具"><h2>其他工具</h2><ul><li><a href="/zh/">生成器</a></li><li><a href="/zh/uuid-v7-generator/">UUID v7</a></li><li><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a></li><li><a href="/zh/bulk-uuid-generator/">批量</a></li><li><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a></li><li><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a></li><li><a href="/zh/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/zh/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>没有账号，也不保存历史。<a href="/uuid-validator/" lang="en">English</a></p>
+    </footer>
+    <script type="application/json" id="ui-strings">{"emptyInput":"请至少输入一个 UUID。","tooMany":"一次最多粘贴 {max} 条。","summary":"{ok} 条有效，{bad} 条无效。","invalidLine":"不是 UUID。","valid":"有效","noTime":"这一版没有 Unix 毫秒时间戳。","fieldResult":"结果","fieldVersion":"版本","fieldVariant":"变体","fieldMillis":"Unix 毫秒","fieldIso":"ISO 8601","variants":{"rfc9562":"RFC 4122 / RFC 9562（10xx）","ncs":"NCS（0xxx）","microsoft":"Microsoft（110x）","future":"保留（111x）"}}</script>
+    <script src="/assets/uuid.js"></script>
+    <script src="/assets/app.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

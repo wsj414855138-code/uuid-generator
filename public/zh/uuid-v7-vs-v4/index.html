@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>UUID v7 与 UUID v4 对比</title>
+    <meta name="description" content="比较随机的 UUID v4 和时间有序的 UUID v7：布局、排序和索引局部性。两种版本都不是密钥。">
+    <meta property="og:title" content="UUID v7 与 UUID v4 对比">
+    <meta property="og:description" content="比较随机的 UUID v4 和时间有序的 UUID v7：布局、排序和索引局部性。两种版本都不是密钥。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-v4/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-v4/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-v4/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"UUID v7 与 UUID v4 对比","description":"比较随机的 UUID v4 和时间有序的 UUID v7：布局、排序和索引局部性。两种版本都不是密钥。","inLanguage":"zh-Hans","mainEntityOfPage":"https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-v4/"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"哪一个是随机的？","acceptedAnswer":{"@type":"Answer","text":"除了版本位和变体位，v4 使用随机位。本站的 v7 使用毫秒时间戳，再加上 74 位随机数。"}},{"@type":"Question","name":"哪一个按时间排序？","acceptedAnswer":{"@type":"Answer","text":"只有 v7 把时间放在高位，所以标准文本会按毫秒排序。v4 不会。"}},{"@type":"Question","name":"v7 会取代 v4 吗？","acceptedAnswer":{"@type":"Answer","text":"不会。如果不希望编号本身露出时间，v4 仍然是正常选择。"}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#content">跳到正文</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/zh/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID 生成器
+        </a>
+        <nav class="lang" aria-label="语言">
+          <a href="/uuid-v7-vs-v4/" hreflang="en" lang="en">English</a>
+          <a href="/zh/uuid-v7-vs-v4/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="工具"><a href="/zh/">生成器</a><a href="/zh/uuid-v7-generator/">UUID v7</a><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a><a href="/zh/uuid-validator/">校验</a><a href="/zh/bulk-uuid-generator/">批量</a><a href="/zh/uuid-v7-vs-v4/" aria-current="page">v7 与 v4</a><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a><a href="/zh/uuid-v7-postgres/">PostgreSQL</a><a href="/zh/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">对比</p>
+        <h1>UUID v7 与 UUID v4 对比</h1>
+        <p class="lede">v4 看不出创建时间。v7 把毫秒写进编号，这会改变排序，也可能改变索引的增长方式。</p>
+      </section>
+      
+      <div class="prose">
+        <div class="table-scroll"><table class="compare"><thead><tr><th scope="col"></th><th scope="col">UUID v4</th><th scope="col">UUID v7</th></tr></thead><tbody><tr><td>规范</td><td>RFC 9562 第 4 版</td><td>RFC 9562 第 7 版</td></tr><tr><td>时间</td><td>没有</td><td>48 位 Unix 毫秒</td></tr><tr><td>随机位</td><td>去掉版本和变体后有 122 位</td><td>本站为 74 位（12 + 62）</td></tr><tr><td>文本排序</td><td>不按时间</td><td>按毫秒</td></tr><tr><td>同一毫秒</td><td>不适用</td><td>本站是随机数，不是计数器</td></tr><tr><td>是否露出时钟</td><td>否</td><td>是，精度到毫秒</td></tr></tbody></table></div><p>随机 v4 主键往往会插到 B-tree 的各处。时钟往前走时，v7 更常落在较新的一侧。这可能减少分散的页分裂，但取决于表、填充因子和写入者的数量。它不能保证查询变快。</p>
+<p>因为时间可见，不要把 v7 用在创建时间本身敏感的地方。两个版本都不是密钥。</p>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">常见问题</h2><details>
+        <summary>哪一个是随机的？</summary>
+        <p>除了版本位和变体位，v4 使用随机位。本站的 v7 使用毫秒时间戳，再加上 74 位随机数。</p>
+      </details>
+<details>
+        <summary>哪一个按时间排序？</summary>
+        <p>只有 v7 把时间放在高位，所以标准文本会按毫秒排序。v4 不会。</p>
+      </details>
+<details>
+        <summary>v7 会取代 v4 吗？</summary>
+        <p>不会。如果不希望编号本身露出时间，v4 仍然是正常选择。</p>
+      </details></section>
+      <nav class="related" aria-label="其他工具"><h2>其他工具</h2><ul><li><a href="/zh/">生成器</a></li><li><a href="/zh/uuid-v7-generator/">UUID v7</a></li><li><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a></li><li><a href="/zh/uuid-validator/">校验</a></li><li><a href="/zh/bulk-uuid-generator/">批量</a></li><li><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a></li><li><a href="/zh/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/zh/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>没有账号，也不保存历史。<a href="/uuid-v7-vs-v4/" lang="en">English</a></p>
+    </footer>
+    
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

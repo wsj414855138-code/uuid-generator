@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>UUID v7 转时间戳</title>
+    <meta name="description" content="把 UUID v7 解码成 Unix 毫秒时间戳和 ISO 8601 时间。其他版本只显示版本和变体。">
+    <meta property="og:title" content="UUID v7 转时间戳">
+    <meta property="og:description" content="把 UUID v7 解码成 Unix 毫秒时间戳和 ISO 8601 时间。其他版本只显示版本和变体。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/zh/uuid-v7-to-timestamp/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-to-timestamp/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-to-timestamp/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-to-timestamp/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-to-timestamp/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"UUID v7 转时间戳","url":"https://uuid-generator-umber.vercel.app/zh/uuid-v7-to-timestamp/","description":"把 UUID v7 解码成 Unix 毫秒时间戳和 ISO 8601 时间。其他版本只显示版本和变体。","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"解出来的是什么时间？","acceptedAnswer":{"@type":"Answer","text":"对于 RFC 变体的 UUID v7，前 48 位是 Unix 毫秒时间戳。页面给出这个整数，以及对应的 UTC ISO 8601 时间。它不读取亚毫秒分数。"}},{"@type":"Question","name":"其他版本呢？","acceptedAnswer":{"@type":"Answer","text":"页面仍会报告版本半字节和变体。它不会换算第 1 版或第 6 版的格里高利时间戳。"}},{"@type":"Question","name":"解码出的时间能证明记录是那时插入的吗？","acceptedAnswer":{"@type":"Answer","text":"不能。它只是写进 UUID 的那个时间戳。时钟可能不准，编号也可能事后被复制。"}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#tool">跳到工具</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/zh/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID 生成器
+        </a>
+        <nav class="lang" aria-label="语言">
+          <a href="/uuid-v7-to-timestamp/" hreflang="en" lang="en">English</a>
+          <a href="/zh/uuid-v7-to-timestamp/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="工具"><a href="/zh/">生成器</a><a href="/zh/uuid-v7-generator/">UUID v7</a><a href="/zh/uuid-v7-to-timestamp/" aria-current="page">v7 时间</a><a href="/zh/uuid-validator/">校验</a><a href="/zh/bulk-uuid-generator/">批量</a><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a><a href="/zh/uuid-v7-postgres/">PostgreSQL</a><a href="/zh/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">解码</p>
+        <h1>UUID v7 转时间戳</h1>
+        <p class="lede">粘贴一个 v7，读取它前 48 位里的毫秒时间戳。同一个表单也会报告任意标准 UUID 的版本和变体。</p>
+      </section>
+      <section id="tool" class="tool" data-uuid-app data-tool="decode" aria-labelledby="tool-title">
+    <h2 id="tool-title" class="visually-hidden">解码 UUID</h2>
+    <form class="controls" data-form novalidate>
+      <div class="field">
+        <label for="uuid-input">UUID</label>
+        <textarea id="uuid-input" data-input spellcheck="false" placeholder="每行粘贴一个 UUID"></textarea>
+        <p class="hint">连字符可以省略。开头的 urn:uuid: 会被忽略。最多 200 行。</p>
+        <p class="error" data-error hidden></p>
+      </div>
+      <button class="btn btn-primary" type="submit">解码</button>
+    </form>
+    <div class="results">
+      <p class="empty" data-empty>粘贴 UUID 后可查看版本、变体；如果是 v7，还会显示时间。</p>
+      <div class="output" data-output></div>
+      <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+    </div>
+  </section>
+      <div class="prose">
+        <p>解码器接受 36 字符的标准写法、不带连字符的 32 位十六进制，以及可选的 urn:uuid: 前缀。</p>
+<p>如果 v7 没用 RFC 变体（高位为 10），页面仍会报告它，但 Unix 时间戳只在该变体下有定义。v4 没有时间戳字段。</p>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">常见问题</h2><details>
+        <summary>解出来的是什么时间？</summary>
+        <p>对于 RFC 变体的 UUID v7，前 48 位是 Unix 毫秒时间戳。页面给出这个整数，以及对应的 UTC ISO 8601 时间。它不读取亚毫秒分数。</p>
+      </details>
+<details>
+        <summary>其他版本呢？</summary>
+        <p>页面仍会报告版本半字节和变体。它不会换算第 1 版或第 6 版的格里高利时间戳。</p>
+      </details>
+<details>
+        <summary>解码出的时间能证明记录是那时插入的吗？</summary>
+        <p>不能。它只是写进 UUID 的那个时间戳。时钟可能不准，编号也可能事后被复制。</p>
+      </details></section>
+      <nav class="related" aria-label="其他工具"><h2>其他工具</h2><ul><li><a href="/zh/">生成器</a></li><li><a href="/zh/uuid-v7-generator/">UUID v7</a></li><li><a href="/zh/uuid-validator/">校验</a></li><li><a href="/zh/bulk-uuid-generator/">批量</a></li><li><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a></li><li><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a></li><li><a href="/zh/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/zh/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>没有账号，也不保存历史。<a href="/uuid-v7-to-timestamp/" lang="en">English</a></p>
+    </footer>
+    <script type="application/json" id="ui-strings">{"emptyInput":"请至少输入一个 UUID。","tooMany":"一次最多粘贴 {max} 条。","summary":"{ok} 条有效，{bad} 条无效。","invalidLine":"不是 UUID。","valid":"有效","noTime":"这一版没有 Unix 毫秒时间戳。","fieldResult":"结果","fieldVersion":"版本","fieldVariant":"变体","fieldMillis":"Unix 毫秒","fieldIso":"ISO 8601","variants":{"rfc9562":"RFC 4122 / RFC 9562（10xx）","ncs":"NCS（0xxx）","microsoft":"Microsoft（110x）","future":"保留（111x）"}}</script>
+    <script src="/assets/uuid.js"></script>
+    <script src="/assets/app.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>UUID v7 vs UUID v4</title>
+    <meta name="description" content="See how random UUID v4 differs from time-ordered UUID v7 in layout, sorting, and index locality. Neither version is a secret.">
+    <meta property="og:title" content="UUID v7 vs UUID v4">
+    <meta property="og:description" content="See how random UUID v4 differs from time-ordered UUID v7 in layout, sorting, and index locality. Neither version is a secret.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-v4/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"UUID v7 vs UUID v4","description":"See how random UUID v4 differs from time-ordered UUID v7 in layout, sorting, and index locality. Neither version is a secret.","inLanguage":"en","mainEntityOfPage":"https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which one is random?","acceptedAnswer":{"@type":"Answer","text":"Version 4 uses random bits apart from the version and variant. Version 7 on this site uses a millisecond timestamp plus 74 random bits."}},{"@type":"Question","name":"Which one sorts by time?","acceptedAnswer":{"@type":"Answer","text":"Only version 7 puts time in the high bits, so the canonical text sorts by millisecond. Version 4 does not."}},{"@type":"Question","name":"Does v7 replace v4?","acceptedAnswer":{"@type":"Answer","text":"No. Version 4 remains a normal choice when you do not want the time to be visible in the identifier."}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to the article</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID generator
+        </a>
+        <nav class="lang" aria-label="Languages">
+          <a href="/uuid-v7-vs-v4/" hreflang="en" lang="en" aria-current="page">English</a>
+          <a href="/zh/uuid-v7-vs-v4/" hreflang="zh-Hans" lang="zh-Hans">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="Tools"><a href="/">Generator</a><a href="/uuid-v7-generator/">UUID v7</a><a href="/uuid-v7-to-timestamp/">v7 timestamp</a><a href="/uuid-validator/">Validator</a><a href="/bulk-uuid-generator/">Bulk</a><a href="/uuid-v7-vs-v4/" aria-current="page">v7 vs v4</a><a href="/uuid-v7-vs-ulid/">v7 vs ULID</a><a href="/uuid-v7-postgres/">PostgreSQL</a><a href="/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">Comparison</p>
+        <h1>UUID v7 vs UUID v4</h1>
+        <p class="lede">Version 4 hides when it was created. Version 7 puts the millisecond in the identifier, which changes sort order and can change how an index grows.</p>
+      </section>
+      
+      <div class="prose">
+        <div class="table-scroll"><table class="compare"><thead><tr><th scope="col"></th><th scope="col">UUID v4</th><th scope="col">UUID v7</th></tr></thead><tbody><tr><td>Specification</td><td>RFC 9562 version 4</td><td>RFC 9562 version 7</td></tr><tr><td>Time</td><td>None</td><td>48-bit Unix milliseconds</td></tr><tr><td>Random bits</td><td>122, after version and variant</td><td>74 on this site (12 + 62)</td></tr><tr><td>Text sort</td><td>Not ordered by time</td><td>Ordered by millisecond</td></tr><tr><td>Same millisecond</td><td>Not applicable</td><td>Random, not a counter, on this site</td></tr><tr><td>Reveals a clock</td><td>No</td><td>Yes, to millisecond precision</td></tr></tbody></table></div><p>A B-tree on random version 4 keys tends to insert all over the index. Version 7 keys from a moving clock tend to arrive toward the recent side. That can mean fewer scattered page splits, but it depends on the table, the fill factor, and how many writers you have. It is not a guarantee that queries get faster.</p>
+<p>Because the time is visible, do not put a v7 in a place where the creation time itself is sensitive. Neither version is a secret.</p>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">Questions</h2><details>
+        <summary>Which one is random?</summary>
+        <p>Version 4 uses random bits apart from the version and variant. Version 7 on this site uses a millisecond timestamp plus 74 random bits.</p>
+      </details>
+<details>
+        <summary>Which one sorts by time?</summary>
+        <p>Only version 7 puts time in the high bits, so the canonical text sorts by millisecond. Version 4 does not.</p>
+      </details>
+<details>
+        <summary>Does v7 replace v4?</summary>
+        <p>No. Version 4 remains a normal choice when you do not want the time to be visible in the identifier.</p>
+      </details></section>
+      <nav class="related" aria-label="Other tools"><h2>Other tools</h2><ul><li><a href="/">Generator</a></li><li><a href="/uuid-v7-generator/">UUID v7</a></li><li><a href="/uuid-v7-to-timestamp/">v7 timestamp</a></li><li><a href="/uuid-validator/">Validator</a></li><li><a href="/bulk-uuid-generator/">Bulk</a></li><li><a href="/uuid-v7-vs-ulid/">v7 vs ULID</a></li><li><a href="/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>No account and no saved history. <a href="/zh/uuid-v7-vs-v4/" lang="zh-Hans">中文</a></p>
+    </footer>
+    
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>批量 UUID 生成器</title>
+    <meta name="description" content="在浏览器中一次生成最多 10000 条 UUID v4 或 UUID v7，并导出为 TXT、CSV 或 JSON。">
+    <meta property="og:title" content="批量 UUID 生成器">
+    <meta property="og:description" content="在浏览器中一次生成最多 10000 条 UUID v4 或 UUID v7，并导出为 TXT、CSV 或 JSON。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/zh/bulk-uuid-generator/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/zh/bulk-uuid-generator/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/bulk-uuid-generator/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/bulk-uuid-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/bulk-uuid-generator/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"批量 UUID 生成器","url":"https://uuid-generator-umber.vercel.app/zh/bulk-uuid-generator/","description":"在浏览器中一次生成最多 10000 条 UUID v4 或 UUID v7，并导出为 TXT、CSV 或 JSON。","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"一次能生成多少？","acceptedAnswer":{"@type":"Answer","text":"一批从 1 到 10000。页面预览前 20 条。复制全部和下载文件包含整批结果。"}},{"@type":"Question","name":"文件会上传吗？","acceptedAnswer":{"@type":"Answer","text":"不会。TXT、CSV 和 JSON 都在浏览器里生成，然后下载到你的电脑。"}},{"@type":"Question","name":"该选哪个版本？","acceptedAnswer":{"@type":"Answer","text":"要随机编号就用 v4。希望新编号按毫秒聚在一起就用 v7。本页的 v7 在同一毫秒内仍然不是计数器。"}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#tool">跳到工具</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/zh/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID 生成器
+        </a>
+        <nav class="lang" aria-label="语言">
+          <a href="/bulk-uuid-generator/" hreflang="en" lang="en">English</a>
+          <a href="/zh/bulk-uuid-generator/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="工具"><a href="/zh/">生成器</a><a href="/zh/uuid-v7-generator/">UUID v7</a><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a><a href="/zh/uuid-validator/">校验</a><a href="/zh/bulk-uuid-generator/" aria-current="page">批量</a><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a><a href="/zh/uuid-v7-postgres/">PostgreSQL</a><a href="/zh/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">最多 10000 条</p>
+        <h1>批量 UUID 生成器</h1>
+        <p class="lede">生成一批 v4 或 v7，并下载 TXT、CSV 或 JSON。页面只显示前 20 条，避免长列表占满屏幕。结果不会上传。</p>
+      </section>
+      <section id="tool" class="tool" data-uuid-app data-tool="bulk" data-max="10000" data-preview="20" aria-labelledby="tool-title">
+    <h2 id="tool-title" class="visually-hidden">生成 UUID</h2>
+    <form class="controls" data-form novalidate>
+      <fieldset class="versions">
+        <legend>版本</legend>
+        <div class="version-options">
+          <label><input type="radio" name="uuid-version" value="4" checked> UUID v4，随机</label>
+          <label><input type="radio" name="uuid-version" value="7"> UUID v7，毫秒时间戳</label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="count">需要多少个？</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" aria-label="减少数量">−</button>
+          <input id="count" data-count name="count" type="number" inputmode="numeric" min="1" max="10000" step="1" value="1" required aria-describedby="count-hint count-error">
+          <button type="button" data-step="1" aria-label="增加数量">+</button>
+        </div>
+        <p id="count-hint" class="hint">请填写 1 到 10000 的整数。</p>
+        <p id="count-error" class="error" data-error hidden></p>
+      </div>
+      <button class="btn btn-primary" type="submit" data-generate>生成 UUID</button>
+      <div class="bulk-actions">
+        <button class="btn btn-ghost" type="button" data-export="txt" disabled>下载 TXT</button>
+        <button class="btn btn-ghost" type="button" data-export="csv" disabled>下载 CSV</button>
+        <button class="btn btn-ghost" type="button" data-export="json" disabled>下载 JSON</button>
+      </div>
+      <p class="hint">预览只列出前 20 条。复制全部和下载文件包含这一批的每一个 UUID。</p>
+      <p class="privacy">生成使用浏览器里的 crypto.getRandomValues。结果不会上传，再次生成会换掉当前列表。</p>
+    </form>
+    <div class="results">
+      <div class="results-bar">
+        <h2>生成结果 <span data-result-count>0</span></h2>
+        <button class="btn btn-ghost" type="button" data-copy-all disabled>复制全部</button>
+      </div>
+      <p class="hint" data-preview-note hidden></p>
+      <p class="empty" data-empty>选择版本和数量，然后生成。</p>
+      <ol data-list></ol>
+      <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+    </div>
+  </section>
+      <div class="prose">
+        <p>TXT 是每行一个 UUID。CSV 有名为 uuid 的表头，然后每行一个 UUID。JSON 是字符串数组。</p>
+<p>同一批内部的重复值会被换掉。这项检查不会和你已经存在别处的编号对比。</p>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">常见问题</h2><details>
+        <summary>一次能生成多少？</summary>
+        <p>一批从 1 到 10000。页面预览前 20 条。复制全部和下载文件包含整批结果。</p>
+      </details>
+<details>
+        <summary>文件会上传吗？</summary>
+        <p>不会。TXT、CSV 和 JSON 都在浏览器里生成，然后下载到你的电脑。</p>
+      </details>
+<details>
+        <summary>该选哪个版本？</summary>
+        <p>要随机编号就用 v4。希望新编号按毫秒聚在一起就用 v7。本页的 v7 在同一毫秒内仍然不是计数器。</p>
+      </details></section>
+      <nav class="related" aria-label="其他工具"><h2>其他工具</h2><ul><li><a href="/zh/">生成器</a></li><li><a href="/zh/uuid-v7-generator/">UUID v7</a></li><li><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a></li><li><a href="/zh/uuid-validator/">校验</a></li><li><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a></li><li><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a></li><li><a href="/zh/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/zh/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>没有账号，也不保存历史。<a href="/bulk-uuid-generator/" lang="en">English</a></p>
+    </footer>
+    <script type="application/json" id="ui-strings">{"copyOne":"复制","copyOneLabel":"复制 {id}","copiedOne":"已复制","copyAll":"复制全部","copiedAll":"已全部复制","copyFailed":"复制失败，请手动选择文本后再复制。","invalidCount":"请输入 1 到 {max} 之间的整数。","cryptoMissing":"当前浏览器没有 crypto.getRandomValues，无法生成 UUID。","generated":"已生成 {n} 个 UUID。","preview":"这里显示前 {shown} 条，共 {n} 条。复制全部和下载文件都包含整批结果。","downloaded":"已下载 {file}。","countLabel":"需要多少个？","decrease":"减少数量","increase":"增加数量","hint":"请填写 1 到 {max} 的整数。","generate":"生成 UUID","privacy":"生成使用浏览器里的 crypto.getRandomValues。结果不会上传，再次生成会换掉当前列表。","results":"生成结果","empty":"选择版本和数量，然后生成。","versionLegend":"版本","v4":"UUID v4，随机","v7":"UUID v7，毫秒时间戳","toolTitle":"生成 UUID","exportTxt":"下载 TXT","exportCsv":"下载 CSV","exportJson":"下载 JSON","bulkHint":"预览只列出前 20 条。复制全部和下载文件包含这一批的每一个 UUID。"}</script>
+    <script src="/assets/uuid.js"></script>
+    <script src="/assets/app.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

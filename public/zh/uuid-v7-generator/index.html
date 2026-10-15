@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>UUID v7 生成器</title>
+    <meta name="description" content="在浏览器中生成符合 RFC 9562 的 UUID v7。每条编号以 Unix 毫秒时间戳开头，一次最多 100 条。">
+    <meta property="og:title" content="UUID v7 生成器">
+    <meta property="og:description" content="在浏览器中生成符合 RFC 9562 的 UUID v7。每条编号以 Unix 毫秒时间戳开头，一次最多 100 条。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/zh/uuid-v7-generator/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-generator/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-generator/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-generator/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-generator/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"UUID v7 生成器","url":"https://uuid-generator-umber.vercel.app/zh/uuid-v7-generator/","description":"在浏览器中生成符合 RFC 9562 的 UUID v7。每条编号以 Unix 毫秒时间戳开头，一次最多 100 条。","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"UUID v7 的布局是什么？","acceptedAnswer":{"@type":"Answer","text":"RFC 9562 把 48 位大端 Unix 毫秒时间戳放在最前面，版本设为 7，然后是 12 位随机数、值为 10 的变体位，以及另外 62 位随机数。"}},{"@type":"Question","name":"写进去的是哪只时钟？","acceptedAnswer":{"@type":"Answer","text":"用的是这个浏览器的 Date.now()，也就是从 1970-01-01 UTC 起算的毫秒，不含闰秒。电脑时钟不准，写进去的时间也不准。"}},{"@type":"Question","name":"这和数据库的 uuidv7() 一样吗？","acceptedAnswer":{"@type":"Answer","text":"版本、变体和毫秒字段遵循 RFC 9562。PostgreSQL 18 还会在 12 位 rand_a 里放亚毫秒分数，并在同一个后端里保持顺序。本页把这 12 位留作随机数。"}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#tool">跳到工具</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/zh/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID 生成器
+        </a>
+        <nav class="lang" aria-label="语言">
+          <a href="/uuid-v7-generator/" hreflang="en" lang="en">English</a>
+          <a href="/zh/uuid-v7-generator/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="工具"><a href="/zh/">生成器</a><a href="/zh/uuid-v7-generator/" aria-current="page">UUID v7</a><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a><a href="/zh/uuid-validator/">校验</a><a href="/zh/bulk-uuid-generator/">批量</a><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a><a href="/zh/uuid-v7-postgres/">PostgreSQL</a><a href="/zh/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">RFC 9562</p>
+        <h1>UUID v7 生成器</h1>
+        <p class="lede">UUID v7 把 Unix 毫秒时间戳放在高位，版本位和变体位之后是随机位。本页默认生成 v7，也可以改成 v4。</p>
+      </section>
+      <section id="tool" class="tool" data-uuid-app data-tool="generate" data-max="100" aria-labelledby="tool-title">
+    <h2 id="tool-title" class="visually-hidden">生成 UUID</h2>
+    <form class="controls" data-form novalidate>
+      <fieldset class="versions">
+        <legend>版本</legend>
+        <div class="version-options">
+          <label><input type="radio" name="uuid-version" value="4"> UUID v4，随机</label>
+          <label><input type="radio" name="uuid-version" value="7" checked> UUID v7，毫秒时间戳</label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="count">需要多少个？</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" aria-label="减少数量">−</button>
+          <input id="count" data-count name="count" type="number" inputmode="numeric" min="1" max="100" step="1" value="1" required aria-describedby="count-hint count-error">
+          <button type="button" data-step="1" aria-label="增加数量">+</button>
+        </div>
+        <p id="count-hint" class="hint">请填写 1 到 100 的整数。</p>
+        <p id="count-error" class="error" data-error hidden></p>
+      </div>
+      <button class="btn btn-primary" type="submit" data-generate>生成 UUID</button>
+      
+      <p class="privacy">生成使用浏览器里的 crypto.getRandomValues。结果不会上传，再次生成会换掉当前列表。</p>
+    </form>
+    <div class="results">
+      <div class="results-bar">
+        <h2>生成结果 <span data-result-count>0</span></h2>
+        <button class="btn btn-ghost" type="button" data-copy-all disabled>复制全部</button>
+      </div>
+      <p class="hint" data-preview-note hidden></p>
+      <p class="empty" data-empty>选择版本和数量，然后生成。</p>
+      <ol data-list></ol>
+      <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+    </div>
+  </section>
+      <div class="prose">
+        <p>标准写法类似 xxxxxxxx-xxxx-7xxx-yxxx-xxxxxxxxxxxx。其中 y 是 8、9、a 或 b，也就是 RFC 变体。</p>
+<p>不同毫秒之间，因为时间戳在前、连字符位置固定，文本会按时间排序。同一毫秒内其余位是随机的，所以本页不会做成计数器。</p>
+      <h2>各位分别是什么</h2>
+      <ul><li>第 0–47 位：Unix 毫秒时间。</li><li>第 48–51 位：版本 7。</li><li>第 52–63 位：rand_a，本页为随机数。</li><li>第 64–65 位：变体 10。</li><li>第 66–127 位：rand_b，随机数。</li></ul>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">常见问题</h2><details>
+        <summary>UUID v7 的布局是什么？</summary>
+        <p>RFC 9562 把 48 位大端 Unix 毫秒时间戳放在最前面，版本设为 7，然后是 12 位随机数、值为 10 的变体位，以及另外 62 位随机数。</p>
+      </details>
+<details>
+        <summary>写进去的是哪只时钟？</summary>
+        <p>用的是这个浏览器的 Date.now()，也就是从 1970-01-01 UTC 起算的毫秒，不含闰秒。电脑时钟不准，写进去的时间也不准。</p>
+      </details>
+<details>
+        <summary>这和数据库的 uuidv7() 一样吗？</summary>
+        <p>版本、变体和毫秒字段遵循 RFC 9562。PostgreSQL 18 还会在 12 位 rand_a 里放亚毫秒分数，并在同一个后端里保持顺序。本页把这 12 位留作随机数。</p>
+      </details></section>
+      <nav class="related" aria-label="其他工具"><h2>其他工具</h2><ul><li><a href="/zh/">生成器</a></li><li><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a></li><li><a href="/zh/uuid-validator/">校验</a></li><li><a href="/zh/bulk-uuid-generator/">批量</a></li><li><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a></li><li><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a></li><li><a href="/zh/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/zh/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>没有账号，也不保存历史。<a href="/uuid-v7-generator/" lang="en">English</a></p>
+    </footer>
+    <script type="application/json" id="ui-strings">{"copyOne":"复制","copyOneLabel":"复制 {id}","copiedOne":"已复制","copyAll":"复制全部","copiedAll":"已全部复制","copyFailed":"复制失败，请手动选择文本后再复制。","invalidCount":"请输入 1 到 {max} 之间的整数。","cryptoMissing":"当前浏览器没有 crypto.getRandomValues，无法生成 UUID。","generated":"已生成 {n} 个 UUID。","preview":"这里显示前 {shown} 条，共 {n} 条。复制全部和下载文件都包含整批结果。","downloaded":"已下载 {file}。","countLabel":"需要多少个？","decrease":"减少数量","increase":"增加数量","hint":"请填写 1 到 {max} 的整数。","generate":"生成 UUID","privacy":"生成使用浏览器里的 crypto.getRandomValues。结果不会上传，再次生成会换掉当前列表。","results":"生成结果","empty":"选择版本和数量，然后生成。","versionLegend":"版本","v4":"UUID v4，随机","v7":"UUID v7，毫秒时间戳","toolTitle":"生成 UUID","exportTxt":"下载 TXT","exportCsv":"下载 CSV","exportJson":"下载 JSON","bulkHint":"预览只列出前 20 条。复制全部和下载文件包含这一批的每一个 UUID。"}</script>
+    <script src="/assets/uuid.js"></script>
+    <script src="/assets/app.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>PostgreSQL 中的 UUID v7</title>
+    <meta name="description" content="在 PostgreSQL 18 中用 uuidv7() 生成 UUID v7，用 uuid_extract_timestamp() 读取毫秒字段，并在页面里试生成一条。">
+    <meta property="og:title" content="PostgreSQL 中的 UUID v7">
+    <meta property="og:description" content="在 PostgreSQL 18 中用 uuidv7() 生成 UUID v7，用 uuid_extract_timestamp() 读取毫秒字段，并在页面里试生成一条。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/zh/uuid-v7-postgres/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-postgres/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-postgres/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-postgres/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-postgres/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"PostgreSQL 中的 UUID v7","url":"https://uuid-generator-umber.vercel.app/zh/uuid-v7-postgres/","description":"在 PostgreSQL 18 中用 uuidv7() 生成 UUID v7，用 uuid_extract_timestamp() 读取毫秒字段，并在页面里试生成一条。","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"哪些版本有 uuidv7()？","acceptedAnswer":{"@type":"Answer","text":"PostgreSQL 18 加入了 uuidv7()。PostgreSQL 17 及更早版本没有这个函数。gen_random_uuid() 是第 4 版，从 PostgreSQL 13 起在核心里可用。"}},{"@type":"Question","name":"uuid_extract_timestamp 对 v7 返回什么？","acceptedAnswer":{"@type":"Answer","text":"它读取 48 位毫秒字段并返回 timestamptz。如果值不是 RFC 变体，或版本没有受支持的时间戳，它返回 null。它不会还原 PostgreSQL 放在 rand_a 里的亚毫秒分数。"}},{"@type":"Question","name":"v7 主键一定会让插入更快吗？","acceptedAnswer":{"@type":"Answer","text":"时间有序的键常常落在 B-tree 的一侧，这和完全随机的 v4 不同。效果取决于表、索引和工作负载。它不是查询变快的承诺。"}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#tool">跳到工具</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/zh/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID 生成器
+        </a>
+        <nav class="lang" aria-label="语言">
+          <a href="/uuid-v7-postgres/" hreflang="en" lang="en">English</a>
+          <a href="/zh/uuid-v7-postgres/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="工具"><a href="/zh/">生成器</a><a href="/zh/uuid-v7-generator/">UUID v7</a><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a><a href="/zh/uuid-validator/">校验</a><a href="/zh/bulk-uuid-generator/">批量</a><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a><a href="/zh/uuid-v7-postgres/" aria-current="page">PostgreSQL</a><a href="/zh/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">PostgreSQL 18</p>
+        <h1>PostgreSQL 中的 UUID v7</h1>
+        <p class="lede">PostgreSQL 18 可以在 SQL 里生成第 7 版 UUID。更早的版本没有 uuidv7()。说明下面的生成器使用本站其余页面相同的浏览器布局。</p>
+      </section>
+      <section id="tool" class="tool" data-uuid-app data-tool="generate" data-max="20" aria-labelledby="tool-title">
+    <h2 id="tool-title" class="visually-hidden">生成 UUID</h2>
+    <form class="controls" data-form novalidate>
+      <fieldset class="versions">
+        <legend>版本</legend>
+        <div class="version-options">
+          <label><input type="radio" name="uuid-version" value="4"> UUID v4，随机</label>
+          <label><input type="radio" name="uuid-version" value="7" checked> UUID v7，毫秒时间戳</label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="count">需要多少个？</label>
+        <div class="stepper">
+          <button type="button" data-step="-1" aria-label="减少数量">−</button>
+          <input id="count" data-count name="count" type="number" inputmode="numeric" min="1" max="20" step="1" value="1" required aria-describedby="count-hint count-error">
+          <button type="button" data-step="1" aria-label="增加数量">+</button>
+        </div>
+        <p id="count-hint" class="hint">请填写 1 到 20 的整数。</p>
+        <p id="count-error" class="error" data-error hidden></p>
+      </div>
+      <button class="btn btn-primary" type="submit" data-generate>生成 UUID</button>
+      
+      <p class="privacy">生成使用浏览器里的 crypto.getRandomValues。结果不会上传，再次生成会换掉当前列表。</p>
+    </form>
+    <div class="results">
+      <div class="results-bar">
+        <h2>生成结果 <span data-result-count>0</span></h2>
+        <button class="btn btn-ghost" type="button" data-copy-all disabled>复制全部</button>
+      </div>
+      <p class="hint" data-preview-note hidden></p>
+      <p class="empty" data-empty>选择版本和数量，然后生成。</p>
+      <ol data-list></ol>
+      <p class="visually-hidden" data-status role="status" aria-live="polite"></p>
+    </div>
+  </section>
+      <div class="prose">
+        <p>uuidv7() 可以带一个可选的 interval 偏移。偏移后的时间仍必须落进 48 位毫秒字段，大约从 1970 年到 10889 年。无限区间会被拒绝。</p>
+<p>在同一个后端里，PostgreSQL 18 把 rand_a 的一部分用作亚毫秒分数，这样即使时钟没有往前走，它生成的值仍会前进。uuid_extract_timestamp() 不返回这个分数，它返回的是毫秒字段对应的 timestamptz。</p><h2>SQL</h2><pre><code>-- PostgreSQL 18 or newer. uuidv7() is not in PostgreSQL 17.
+SELECT uuidv7();
+SELECT uuid_extract_version(uuidv7());
+SELECT uuid_extract_timestamp(uuidv7());
+
+CREATE TABLE events (
+  id uuid PRIMARY KEY DEFAULT uuidv7(),
+  note text NOT NULL
+);</code></pre>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">常见问题</h2><details>
+        <summary>哪些版本有 uuidv7()？</summary>
+        <p>PostgreSQL 18 加入了 uuidv7()。PostgreSQL 17 及更早版本没有这个函数。gen_random_uuid() 是第 4 版，从 PostgreSQL 13 起在核心里可用。</p>
+      </details>
+<details>
+        <summary>uuid_extract_timestamp 对 v7 返回什么？</summary>
+        <p>它读取 48 位毫秒字段并返回 timestamptz。如果值不是 RFC 变体，或版本没有受支持的时间戳，它返回 null。它不会还原 PostgreSQL 放在 rand_a 里的亚毫秒分数。</p>
+      </details>
+<details>
+        <summary>v7 主键一定会让插入更快吗？</summary>
+        <p>时间有序的键常常落在 B-tree 的一侧，这和完全随机的 v4 不同。效果取决于表、索引和工作负载。它不是查询变快的承诺。</p>
+      </details></section>
+      <nav class="related" aria-label="其他工具"><h2>其他工具</h2><ul><li><a href="/zh/">生成器</a></li><li><a href="/zh/uuid-v7-generator/">UUID v7</a></li><li><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a></li><li><a href="/zh/uuid-validator/">校验</a></li><li><a href="/zh/bulk-uuid-generator/">批量</a></li><li><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a></li><li><a href="/zh/uuid-v7-vs-ulid/">v7 与 ULID</a></li><li><a href="/zh/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>没有账号，也不保存历史。<a href="/uuid-v7-postgres/" lang="en">English</a></p>
+    </footer>
+    <script type="application/json" id="ui-strings">{"copyOne":"复制","copyOneLabel":"复制 {id}","copiedOne":"已复制","copyAll":"复制全部","copiedAll":"已全部复制","copyFailed":"复制失败，请手动选择文本后再复制。","invalidCount":"请输入 1 到 {max} 之间的整数。","cryptoMissing":"当前浏览器没有 crypto.getRandomValues，无法生成 UUID。","generated":"已生成 {n} 个 UUID。","preview":"这里显示前 {shown} 条，共 {n} 条。复制全部和下载文件都包含整批结果。","downloaded":"已下载 {file}。","countLabel":"需要多少个？","decrease":"减少数量","increase":"增加数量","hint":"请填写 1 到 {max} 的整数。","generate":"生成 UUID","privacy":"生成使用浏览器里的 crypto.getRandomValues。结果不会上传，再次生成会换掉当前列表。","results":"生成结果","empty":"选择版本和数量，然后生成。","versionLegend":"版本","v4":"UUID v4，随机","v7":"UUID v7，毫秒时间戳","toolTitle":"生成 UUID","exportTxt":"下载 TXT","exportCsv":"下载 CSV","exportJson":"下载 JSON","bulkHint":"预览只列出前 20 条。复制全部和下载文件包含这一批的每一个 UUID。"}</script>
+    <script src="/assets/uuid.js"></script>
+    <script src="/assets/app.js"></script>
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

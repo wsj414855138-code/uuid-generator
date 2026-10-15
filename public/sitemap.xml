@@ -1,13 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://uuid-generator-umber.vercel.app/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/"/>
   </url>
   <url>
     <loc>https://uuid-generator-umber.vercel.app/zh/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/uuid-v7-generator/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-generator/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-generator/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-generator/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/zh/uuid-v7-generator/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-generator/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-generator/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-generator/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/uuid-v7-to-timestamp/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-to-timestamp/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-to-timestamp/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-to-timestamp/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/zh/uuid-v7-to-timestamp/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-to-timestamp/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-to-timestamp/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-to-timestamp/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/uuid-validator/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-validator/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-validator/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-validator/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/zh/uuid-validator/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-validator/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-validator/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-validator/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/bulk-uuid-generator/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/bulk-uuid-generator/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/bulk-uuid-generator/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/bulk-uuid-generator/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/zh/bulk-uuid-generator/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/bulk-uuid-generator/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/bulk-uuid-generator/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/bulk-uuid-generator/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-v4/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-v4/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-v4/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-v4/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-ulid/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-ulid/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-ulid/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/uuid-v7-postgres/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-postgres/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-postgres/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-postgres/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/zh/uuid-v7-postgres/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-postgres/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-postgres/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-postgres/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/uuid-v7-java/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-java/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-java/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-java/"/>
+  </url>
+  <url>
+    <loc>https://uuid-generator-umber.vercel.app/zh/uuid-v7-java/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-java/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-java/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-java/"/>
   </url>
 </urlset>

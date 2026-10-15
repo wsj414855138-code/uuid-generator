@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- google-site-verification -->
+    <title>UUID v7 与 ULID 对比</title>
+    <meta name="description" content="比较 UUID v7 和 ULID 的位数、文本编码、排序方式，以及什么时候更适合使用数据库的 uuid 类型。">
+    <meta property="og:title" content="UUID v7 与 ULID 对比">
+    <meta property="og:description" content="比较 UUID v7 和 ULID 的位数、文本编码、排序方式，以及什么时候更适合使用数据库的 uuid 类型。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-ulid/">
+    <link rel="canonical" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-ulid/">
+    <link rel="alternate" hreflang="en" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-ulid/">
+    <link rel="alternate" hreflang="x-default" href="https://uuid-generator-umber.vercel.app/uuid-v7-vs-ulid/">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"UUID v7 与 ULID 对比","description":"比较 UUID v7 和 ULID 的位数、文本编码、排序方式，以及什么时候更适合使用数据库的 uuid 类型。","inLanguage":"zh-Hans","mainEntityOfPage":"https://uuid-generator-umber.vercel.app/zh/uuid-v7-vs-ulid/"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"它们都是同样的 128 位吗？","acceptedAnswer":{"@type":"Answer","text":"两者都是 128 位，也都以 48 位 Unix 毫秒时间戳开头。ULID 后面是 80 位随机数。UUID v7 要留出 4 位版本和 2 位变体，RFC 9562 定义的随机部分是 74 位。"}},{"@type":"Question","name":"可以把 ULID 存进 UUID 列吗？","acceptedAnswer":{"@type":"Answer","text":"ULID 不是 UUID。有的代码把 16 字节 ULID 写进 uuid 列，但版本半字节就变成那些位碰巧的值。那个值不是 UUID v7。"}},{"@type":"Question","name":"哪种文本会排序？","acceptedAnswer":{"@type":"Answer","text":"ULID 的 26 位 Crockford base32 文本按时间排序。标准 UUID v7 十六进制字符串也会按毫秒排序，因为时间戳在前，连字符的位置是固定的。"}}]}]}</script>
+  </head>
+  <body>
+    <a class="skip" href="#content">跳到正文</a>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="brand" href="/zh/">
+          <span class="mark" aria-hidden="true"></span>
+          UUID 生成器
+        </a>
+        <nav class="lang" aria-label="语言">
+          <a href="/uuid-v7-vs-ulid/" hreflang="en" lang="en">English</a>
+          <a href="/zh/uuid-v7-vs-ulid/" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+        </nav>
+      </div>
+      <nav class="tool-nav" aria-label="工具"><a href="/zh/">生成器</a><a href="/zh/uuid-v7-generator/">UUID v7</a><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a><a href="/zh/uuid-validator/">校验</a><a href="/zh/bulk-uuid-generator/">批量</a><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a><a href="/zh/uuid-v7-vs-ulid/" aria-current="page">v7 与 ULID</a><a href="/zh/uuid-v7-postgres/">PostgreSQL</a><a href="/zh/uuid-v7-java/">Java</a></nav>
+    </header>
+    <main class="wrap" id="content">
+      <section class="hero">
+        <p class="kicker">对比</p>
+        <h1>UUID v7 与 ULID 对比</h1>
+        <p class="lede">两者都是 128 位，也都以 Unix 毫秒时间戳开头。它们不是同一种标识：ULID 没有版本和变体，常见文本是 Crockford base32。</p>
+      </section>
+      
+      <div class="prose">
+        <div class="table-scroll"><table class="compare"><thead><tr><th scope="col"></th><th scope="col">UUID v7</th><th scope="col">ULID</th></tr></thead><tbody><tr><td>宽度</td><td>128 位</td><td>128 位</td></tr><tr><td>时间戳</td><td>48 位 Unix 毫秒</td><td>48 位 Unix 毫秒</td></tr><tr><td>时间戳之后</td><td>4 位版本、12 位 rand_a、2 位变体、62 位 rand_b</td><td>80 位随机数</td></tr><tr><td>常见文本</td><td>36 字符，十六进制加连字符</td><td>26 字符，Crockford base32</td></tr><tr><td>版本字段</td><td>7</td><td>没有</td></tr><tr><td>单调选项</td><td>RFC 9562 允许；本站使用随机位</td><td>ULID 规范描述了在同一毫秒里递增随机部分</td></tr><tr><td>原生 UUID 类型</td><td>版本和变体按规范设置时可以</td><td>不是。它是另一种标识</td></tr></tbody></table></div><p>列、接口或解析器已经要求 UUID 时，用 UUID v7。周围系统已经使用 26 字符文本时，用 ULID。把字节抄过去并不会改变生成这些字节的那份规范。</p>
+      </div>
+      <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title" class="section-title">常见问题</h2><details>
+        <summary>它们都是同样的 128 位吗？</summary>
+        <p>两者都是 128 位，也都以 48 位 Unix 毫秒时间戳开头。ULID 后面是 80 位随机数。UUID v7 要留出 4 位版本和 2 位变体，RFC 9562 定义的随机部分是 74 位。</p>
+      </details>
+<details>
+        <summary>可以把 ULID 存进 UUID 列吗？</summary>
+        <p>ULID 不是 UUID。有的代码把 16 字节 ULID 写进 uuid 列，但版本半字节就变成那些位碰巧的值。那个值不是 UUID v7。</p>
+      </details>
+<details>
+        <summary>哪种文本会排序？</summary>
+        <p>ULID 的 26 位 Crockford base32 文本按时间排序。标准 UUID v7 十六进制字符串也会按毫秒排序，因为时间戳在前，连字符的位置是固定的。</p>
+      </details></section>
+      <nav class="related" aria-label="其他工具"><h2>其他工具</h2><ul><li><a href="/zh/">生成器</a></li><li><a href="/zh/uuid-v7-generator/">UUID v7</a></li><li><a href="/zh/uuid-v7-to-timestamp/">v7 时间</a></li><li><a href="/zh/uuid-validator/">校验</a></li><li><a href="/zh/bulk-uuid-generator/">批量</a></li><li><a href="/zh/uuid-v7-vs-v4/">v7 与 v4</a></li><li><a href="/zh/uuid-v7-postgres/">PostgreSQL</a></li><li><a href="/zh/uuid-v7-java/">Java</a></li></ul></nav>
+    </main>
+    <footer class="site-footer">
+      <p>没有账号，也不保存历史。<a href="/uuid-v7-vs-ulid/" lang="en">English</a></p>
+    </footer>
+    
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>
