@@ -96,7 +96,12 @@ for (const file of htmlFiles) {
   assert.match(html, /<meta property="og:url" content="https:\/\/uuid-generator-umber\.vercel\.app\/[^"]*">/);
   assert.match(html, /window\.vaq = window\.vaq \|\| \[\]/);
   assert.match(html, /<script defer src="\/_vercel\/insights\/script\.js"><\/script>/);
-  assert.match(html, /<!-- google-site-verification -->/);
+  const isHome = file === path.join(root, "index.html") || file === path.join(root, "zh", "index.html");
+  if (isHome) {
+    assert.ok(html.includes('<meta name="google-site-verification" content="WUiUqFMRdkf6zMy0DAHwLQXTdtf39n8QKbi3EutCM1w" />'), file);
+  } else {
+    assert.match(html, /<!-- google-site-verification -->/);
+  }
   assert.doesNotMatch(html, /googletagmanager|google-analytics|gtag\(/);
   const data = JSON.parse(blocks[0][1]);
   const faq = data["@graph"].find((item) => item["@type"] === "FAQPage");
